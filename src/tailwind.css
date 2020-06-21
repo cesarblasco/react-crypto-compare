@@ -1,0 +1,16 @@
+@tailwind base;
+@tailwind components;
+
+.pagination-btn {
+  @apply inline-block cursor-pointer px-2 py-1 border-solid border-2;
+}
+
+.pagination-btn-active {
+  @apply bg-blue-600 text-white;
+}
+
+.select {
+  @apply w-16 mr-2 border-solid border border-gray-500 cursor-pointer;
+}
+
+@tailwind utilities;
