@@ -53,7 +53,7 @@ const Pagination: React.FC<IPagination> = ({
         totalPages: Math.ceil(totalData / state.perPage),
       });
     }
-  }, [totalData]);
+  }, [totalData, dataSource]);
 
   const handlePageChange = (currentPage: number) => {
     if (
@@ -93,6 +93,7 @@ const Pagination: React.FC<IPagination> = ({
   return totalData > 0 ? (
     <>
       <div className="flex mt-6 mb-4">
+        {/* <pre>{JSON.stringify(state.perPage, null, 2)}</pre> */}
         <nav className="inline-block w-3/4">
           <ul>
             <li

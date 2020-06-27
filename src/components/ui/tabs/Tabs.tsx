@@ -44,28 +44,6 @@ const Tabs: React.FC<ITabs> = ({
     setState(newState);
   }, [selectedTab]);
 
-  // const handleSelectedTab = (tab: any) => {
-  //   if (selectedTab.id !== tab.id) {
-  //     onChangeTab(tab);
-
-  //     const updatedTabs = state.tabs.map((tab: any) => {
-  //       return {
-  //         ...tab,
-  //         active: selectedTab.id === tab.id,
-  //       };
-  //     });
-
-  //     const newState = {
-  //       selectedTab,
-  //       tabs: [...updatedTabs],
-  //     };
-
-  //     setState(newState);
-
-  //     console.log("a");
-  //   }
-  // };
-
   return (
     <div role="tablist">
       {state.tabs.map((tab: any) => {

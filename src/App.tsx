@@ -9,8 +9,11 @@ import {
   generateRandomHexColor,
   transformNumberToReadableFormat,
 } from "./utilities/utilities";
-import { ITableHeader } from "./types/TableHeader";
+import { ITableHeader } from "./models/interfaces/TableHeader";
 import { fetchCryptoCurrencies } from "./services/CryptocurrenciesService";
+import { ICryptoAsset } from "./models/interfaces/CryptoAsset";
+import { ISelectedAssets } from "./models/interfaces/SelectedAssets";
+import { SortingTypes } from "./models/enums/SortingTypes.enum";
 
 const App: React.FC<any> = () => {
   const assetsInitialState = {
@@ -23,15 +26,15 @@ const App: React.FC<any> = () => {
   const [currentSearch, setCurrentSearch] = useState("");
   const [currentFetchLimit, setCurrentFetchLimit] = useState(100);
 
-  const selectedAssetsInitialState: any = {
+  const selectedAssetsInitialState: ISelectedAssets = {
     assets: [],
     information: {
       totalPrice: 0,
-      totalMarketShare: 0,
+      totalMarketShare: "0",
     },
   };
 
-  const [selectedAssets, setSelectedAssets]: any[] = useState(
+  const [selectedAssets, setSelectedAssets] = useState(
     selectedAssetsInitialState
   );
 
@@ -45,12 +48,12 @@ const App: React.FC<any> = () => {
       (jsonResponse: any) => {
         const responseData = jsonResponse.data;
 
-        responseData.forEach((cryptoAsset: any) => {
+        responseData.forEach((cryptoAsset: ICryptoAsset) => {
           cryptoAsset.isChecked = false;
         });
 
         if (selectedAssets && selectedAssets.assets.length) {
-          selectedAssets.assets.forEach((asset: any) => {
+          selectedAssets.assets.forEach((asset: ICryptoAsset) => {
             const selectedAssetIndexInCryptoAssets = responseData.findIndex(
               (assetToFind: any) => assetToFind.id === asset.id
             );
@@ -83,7 +86,7 @@ const App: React.FC<any> = () => {
 
   const addOrRemoveAssetFromSelectedAssets = (
     isChecked: boolean,
-    asset: any
+    asset: ICryptoAsset
   ) => {
     asset.isChecked = isChecked;
     let modifiedSelectedAssets = [...selectedAssets.assets];
@@ -97,7 +100,7 @@ const App: React.FC<any> = () => {
     return modifiedSelectedAssets;
   };
 
-  const handleAssetCheck = (event: any, asset: any) => {
+  const handleAssetCheck = (event: any, asset: ICryptoAsset) => {
     let newSelectedAssets = addOrRemoveAssetFromSelectedAssets(
       event.target.checked,
       asset
@@ -116,7 +119,7 @@ const App: React.FC<any> = () => {
       );
 
       newTotalMarketShare = newSelectedAssets.reduce(
-        (acc: number, currentAsset: any) => {
+        (acc: number, currentAsset: ICryptoAsset) => {
           acc = acc + parseFloat(currentAsset.marketCapUsd);
           return acc;
         },
@@ -180,7 +183,7 @@ const App: React.FC<any> = () => {
 
   const handleResetSelection = () => {
     const uncheckedCryptoAssets = [...assets.responseAssets];
-    uncheckedCryptoAssets.forEach((asset: any) => {
+    uncheckedCryptoAssets.forEach((asset: ICryptoAsset) => {
       asset.isChecked = false;
     });
     setAssets({ ...assets, responseAssets: uncheckedCryptoAssets });
@@ -188,8 +191,8 @@ const App: React.FC<any> = () => {
   };
 
   const handleAssetSort = (sortedHeader: ITableHeader) => {
-    let sortedData = [...assets.responseAssets];
-    sortedData.sort((a: any, b: any) => {
+    let sortedAssets = [...assets.responseAssets];
+    sortedAssets.sort((a: any, b: any) => {
       let attr1 = a[sortedHeader.sortBy];
       let attr2 = b[sortedHeader.sortBy];
 
@@ -209,7 +212,7 @@ const App: React.FC<any> = () => {
       } else if (attr1 === attr2) {
         return 0;
       }
-      return sortedHeader.currentSort === "asc"
+      return sortedHeader.currentSort === SortingTypes.Ascending
         ? attr1 < attr2
           ? 1
           : -1
@@ -218,10 +221,10 @@ const App: React.FC<any> = () => {
         : 1;
     });
 
-    console.log({ sortedData });
     setAssets({
       ...assets,
-      responseAssets: sortedData,
+      responseAssets: sortedAssets,
+      currentPageAssets: sortedAssets.slice(0, 10),
     });
   };
 
@@ -256,7 +259,7 @@ const App: React.FC<any> = () => {
             id="fetchLimit"
             value={currentFetchLimit}
             onChange={handleChangeFetchLimit}
-            className="select"
+            className="select outline-none focus:border-blue-500"
           >
             <option value="100">100</option>
             <option value="500">500</option>

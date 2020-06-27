@@ -1,9 +1,11 @@
 import React from "react";
 import { ResponsivePie } from "@nivo/pie";
 import { transformNumberToReadableFormat } from "../../../../../utilities/utilities";
+import { ICryptoAsset } from "../../../../../models/interfaces/CryptoAsset";
+import { ISelectedAssets } from "../../../../../models/interfaces/SelectedAssets";
 
 interface IPieChart {
-  selectedAssets: any;
+  selectedAssets: ISelectedAssets;
   graphicSettings: any;
 }
 
@@ -23,7 +25,7 @@ const PieChart: React.FC<IPieChart> = ({ selectedAssets, graphicSettings }) => {
     };
   });
 
-  const assetColors = selectedAssets.assets.map((asset: any) => {
+  const assetColors = selectedAssets.assets.map((asset: ICryptoAsset) => {
     return asset.color;
   });
 

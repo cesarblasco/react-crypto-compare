@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import Tabs from "../../../ui/tabs/Tabs";
 import Pills from "../../../ui/pills/Pills";
+import { GraphicTypes } from "../../../../models/enums/GraphicTypes.enum";
+import { ComparisonTypes } from "../../../../models/enums/ComparisonTypes.enum";
 
 interface IGraphicSettings {
   onChangeGraphicTab: (selectedGraphicTab: any) => void;
@@ -11,21 +13,24 @@ const GraphicSettings: React.FC<IGraphicSettings> = ({
   onChangeGraphicTab,
   onChangeComparisonPill,
 }) => {
+  const { HorizontalBar, Pie, Bar } = GraphicTypes;
+  const { Price, MarketShare } = ComparisonTypes;
+
   const graphicTabs = [
     {
-      id: "bar",
+      id: HorizontalBar,
       title: "Horizontal Bar",
       visible: true,
       active: true,
     },
     {
-      id: "pie",
+      id: Pie,
       title: "Pie chart",
       visible: true,
       active: false,
     },
     {
-      id: "barChart",
+      id: Bar,
       title: "Bar chart",
       visible: true,
       active: false,
@@ -34,7 +39,7 @@ const GraphicSettings: React.FC<IGraphicSettings> = ({
 
   const graphicComparisonPills = [
     {
-      id: "price",
+      id: Price,
       title: "Price",
       keyFromAsset: "priceUsd",
       percentageOfTotalKey: "percentageOfTotal",
@@ -42,12 +47,12 @@ const GraphicSettings: React.FC<IGraphicSettings> = ({
       active: false,
     },
     {
-      id: "marketShare",
+      id: MarketShare,
       title: "Market Cap",
       keyFromAsset: "marketCapUsd",
       percentageOfTotalKey: "marketSharePercentageOfTotal",
       visible: true,
-      active: true,
+      active: false,
     },
   ];
 

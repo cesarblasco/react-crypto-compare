@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import ReactTooltip from "react-tooltip";
-import { ITableHeader } from "../../../types/TableHeader";
+import { ITableHeader } from "../../../models/interfaces/TableHeader";
+import { SortingTypes } from "../../../models/enums/SortingTypes.enum";
 
 interface ITable {
   headers: ITableHeader[];
@@ -9,6 +10,8 @@ interface ITable {
 }
 
 const Table: React.FC<ITable> = ({ children, headers, onSort }) => {
+  const { Ascending, Descending } = SortingTypes;
+
   const [currentSortedHeader, setCurrentSortedHeader] = useState();
 
   if (currentSortedHeader) {
@@ -25,12 +28,13 @@ const Table: React.FC<ITable> = ({ children, headers, onSort }) => {
     let newSortedHeader;
     if (clickedHeader.sortBy) {
       if (!currentSortedHeader) {
-        newSortedHeader = { ...clickedHeader, currentSort: "asc" };
+        newSortedHeader = { ...clickedHeader, currentSort: Ascending };
         setCurrentSortedHeader(newSortedHeader);
       } else {
         newSortedHeader = {
           ...clickedHeader,
-          currentSort: clickedHeader.currentSort === "desc" ? "asc" : "desc",
+          currentSort:
+            clickedHeader.currentSort === Descending ? Ascending : Descending,
         };
         setCurrentSortedHeader(newSortedHeader);
       }

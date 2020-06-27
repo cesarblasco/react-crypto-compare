@@ -61,9 +61,6 @@ const Pills: React.FC<IPills> = ({
                   ? "bg-blue-600 text-white font-semibold"
                   : "border-solid border-2 border-black-500"
               }`}
-              // className={`${styles.pill} ${
-              //   pill.active ? styles.pillActive : ""
-              // }`}
               onClick={() => handleClick(pill)}
             >
               {pill.title}

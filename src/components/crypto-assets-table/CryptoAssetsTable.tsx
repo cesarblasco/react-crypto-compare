@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import Table from "../ui/table/Table";
 import { transformNumberToReadableFormat } from "../../utilities/utilities";
-import { ITableHeader } from "../../types/TableHeader";
+import { ITableHeader } from "../../models/interfaces/TableHeader";
 
 interface ICryptoAssetsTable {
   cryptoAssets: any[];

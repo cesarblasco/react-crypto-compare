@@ -1,10 +1,12 @@
-import React, { useState } from "react";
+import React from "react";
 import ComparisonBar from "./comparison-bar/ComparisonBar";
 import PieChart from "./pie-chart/PieChart";
 import BarChart from "./bar-chart/BarChart";
+import { GraphicTypes } from "../../../../models/enums/GraphicTypes.enum";
+import { ISelectedAssets } from "../../../../models/interfaces/SelectedAssets";
 
 interface IGraphicSelector {
-  selectedAssets: any;
+  selectedAssets: ISelectedAssets;
   graphicSettings: any;
   onResetSelection: () => void;
 }
@@ -14,9 +16,11 @@ const GraphicSelector: React.FC<IGraphicSelector> = ({
   graphicSettings,
   onResetSelection,
 }) => {
+  const { HorizontalBar, Pie, Bar } = GraphicTypes;
+
   const renderCurrentGraphic = () => {
     switch (graphicSettings.currentGraphic) {
-      case "bar":
+      case HorizontalBar:
         return (
           <ComparisonBar
             selectedAssets={selectedAssets}
@@ -24,7 +28,7 @@ const GraphicSelector: React.FC<IGraphicSelector> = ({
           />
         );
 
-      case "pie":
+      case Pie:
         return (
           <PieChart
             selectedAssets={selectedAssets}
@@ -32,7 +36,7 @@ const GraphicSelector: React.FC<IGraphicSelector> = ({
           />
         );
 
-      case "barChart":
+      case Bar:
         return (
           <BarChart
             selectedAssets={selectedAssets}

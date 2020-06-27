@@ -24,9 +24,6 @@ export const transformNumberToReadableFormat = (
   const million = 1000000;
   const billion = 1000000000;
   let newFormattedNumber = "0";
-  // if(test && number < billion){
-
-  // }
 
   if ((number >= million && number < billion) || useBillionFormatForMillions) {
     newFormattedNumber = `${Number(number / million).toFixed(2)}`;

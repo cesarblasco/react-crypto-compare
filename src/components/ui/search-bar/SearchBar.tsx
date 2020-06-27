@@ -29,7 +29,7 @@ const SearchBar: React.FC<ISearchBar> = ({
       <input
         type="text"
         disabled={isDisabled}
-        className="border-solid border-2 border-black-800 w-64 pl-4"
+        className="border-solid border-2 w-64 pl-4 outline-none focus:border-blue-500"
         placeholder={placeholder}
         onChange={handleSearchChange}
       />
