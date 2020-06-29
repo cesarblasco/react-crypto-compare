@@ -1,4 +1,5 @@
 import React from "react";
+import ChartCaption from "../chart-caption/ChartCaption";
 import { ResponsiveBar } from "@nivo/bar";
 
 // import { ResponsivePie } from "@nivo/pie";
@@ -6,10 +7,10 @@ import { ResponsiveBar } from "@nivo/bar";
 
 interface IBarChart {
   selectedAssets: any;
-  graphicSettings: any;
+  chartSettings: any;
 }
 
-const BarChart: React.FC<IBarChart> = ({ selectedAssets, graphicSettings }) => {
+const BarChart: React.FC<IBarChart> = ({ selectedAssets, chartSettings }) => {
   //   const pieChartData = selectedAssets.assets.map((asset: any) => {
   //     return {
   //       id: asset.id,
@@ -135,7 +136,7 @@ const BarChart: React.FC<IBarChart> = ({ selectedAssets, graphicSettings }) => {
   ];
 
   return (
-    <div style={{ height: "350px", width: "500px" }}>
+    <figure style={{ height: "350px", width: "80%" }}>
       <ResponsiveBar
         data={data}
         keys={["hot dog", "burger", "sandwich", "kebab", "fries", "donut"]}
@@ -227,7 +228,9 @@ const BarChart: React.FC<IBarChart> = ({ selectedAssets, graphicSettings }) => {
         motionStiffness={90}
         motionDamping={15}
       />
-    </div>
+
+      <ChartCaption chartSettings={chartSettings} />
+    </figure>
   );
 };
 

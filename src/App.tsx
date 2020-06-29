@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import SearchBar from "./components/ui/search-bar/SearchBar";
-import GraphicContainer from "./components/charts/graphic-container/GraphicContainer";
+import ChartContainer from "./components/charts/chart-container/ChartContainer";
 import CryptoAssetsTable from "./components/crypto-assets-table/CryptoAssetsTable";
 import Pagination from "./components/ui/pagination/Pagination";
 import Spinner from "./components/ui/spinner/Spinner";
@@ -235,7 +235,7 @@ const App: React.FC<any> = () => {
 
         {selectedAssets && selectedAssets.assets.length ? (
           <>
-            <GraphicContainer
+            <ChartContainer
               selectedAssets={selectedAssets}
               onResetSelection={handleResetSelection}
               onClosePanel={handleClosePanel}

@@ -1,26 +1,28 @@
 import React from "react";
+import ChartCaption from "../chart-caption/ChartCaption";
 import { ResponsivePie } from "@nivo/pie";
 import { transformNumberToReadableFormat } from "../../../../../utilities/utilities";
 import { ICryptoAsset } from "../../../../../models/interfaces/CryptoAsset";
 import { ISelectedAssets } from "../../../../../models/interfaces/SelectedAssets";
+import { IChartSettings } from "../../../../../models/interfaces/ChartSettings";
 
 interface IPieChart {
   selectedAssets: ISelectedAssets;
-  graphicSettings: any;
+  chartSettings: IChartSettings;
 }
 
-const PieChart: React.FC<IPieChart> = ({ selectedAssets, graphicSettings }) => {
-  const pieChartData = selectedAssets.assets.map((asset: any) => {
+const PieChart: React.FC<IPieChart> = ({ selectedAssets, chartSettings }) => {
+  const billion = 1000000000;
+  const pieChartData = selectedAssets.assets.map((asset: ICryptoAsset) => {
+    const assetValue = asset[chartSettings.currentComparisonKey];
+    const valueToDisplay =
+      assetValue < billion && chartSettings.currentComparisonKey !== "priceUsd"
+        ? assetValue / billion
+        : assetValue;
     return {
       id: asset.id,
       label: `${asset.name} (${asset.symbol})`,
-      value: Number(
-        transformNumberToReadableFormat(
-          asset[graphicSettings.currentComparisonKey],
-          true,
-          graphicSettings.currentComparisonKey === "marketCapUsd"
-        )
-      ),
+      value: Number(transformNumberToReadableFormat(valueToDisplay, true)),
       color: asset.color,
     };
   });
@@ -30,7 +32,7 @@ const PieChart: React.FC<IPieChart> = ({ selectedAssets, graphicSettings }) => {
   });
 
   return (
-    <div style={{ height: "400px", width: "500px" }}>
+    <figure style={{ height: "400px", width: "500px" }}>
       <ResponsivePie
         data={pieChartData}
         margin={{ top: 40, right: 80, bottom: 80, left: 80 }}
@@ -54,7 +56,11 @@ const PieChart: React.FC<IPieChart> = ({ selectedAssets, graphicSettings }) => {
         motionStiffness={90}
         motionDamping={15}
       />
-    </div>
+
+      <div style={{ marginTop: "-40px" }}>
+        <ChartCaption chartSettings={chartSettings} />
+      </div>
+    </figure>
   );
 };
 

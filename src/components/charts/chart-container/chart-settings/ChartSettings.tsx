@@ -1,25 +1,25 @@
 import React, { useState } from "react";
 import Tabs from "../../../ui/tabs/Tabs";
 import Pills from "../../../ui/pills/Pills";
-import { GraphicTypes } from "../../../../models/enums/GraphicTypes.enum";
+import { ChartTypes } from "../../../../models/enums/ChartTypes.enum";
 import { ComparisonTypes } from "../../../../models/enums/ComparisonTypes.enum";
 
-interface IGraphicSettings {
+interface IChartSettings {
   onChangeGraphicTab: (selectedGraphicTab: any) => void;
   onChangeComparisonPill: (selectedComparisonPill: any) => void;
 }
 
-const GraphicSettings: React.FC<IGraphicSettings> = ({
+const ChartSettings: React.FC<IChartSettings> = ({
   onChangeGraphicTab,
   onChangeComparisonPill,
 }) => {
-  const { HorizontalBar, Pie, Bar } = GraphicTypes;
+  const { StackedBar, Pie, Bar } = ChartTypes;
   const { Price, MarketShare } = ComparisonTypes;
 
   const graphicTabs = [
     {
-      id: HorizontalBar,
-      title: "Horizontal Bar",
+      id: StackedBar,
+      title: "Stacked Bar",
       visible: true,
       active: true,
     },
@@ -92,4 +92,4 @@ const GraphicSettings: React.FC<IGraphicSettings> = ({
   );
 };
 
-export default GraphicSettings;
+export default ChartSettings;

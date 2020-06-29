@@ -18,14 +18,13 @@ export const hexToRGBA = (hex: any, alpha: any): string => {
 
 export const transformNumberToReadableFormat = (
   number: number,
-  hideUnit?: boolean,
-  useBillionFormatForMillions?: boolean
+  hideUnit?: boolean
 ): string => {
   const million = 1000000;
   const billion = 1000000000;
   let newFormattedNumber = "0";
 
-  if ((number >= million && number < billion) || useBillionFormatForMillions) {
+  if (number >= million && number < billion) {
     newFormattedNumber = `${Number(number / million).toFixed(2)}`;
     if (!hideUnit) {
       newFormattedNumber += "m";

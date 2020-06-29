@@ -1,30 +1,33 @@
 import React, { useEffect, useState } from "react";
-import GraphicSettings from "./graphic-settings/GraphicSettings";
-import GraphicSelector from "./graphic-selector/GraphicSelector";
+import ChartSettings from "./chart-settings/ChartSettings";
+import ChartSelector from "./chart-selector/ChartSelector";
 import InformationPanel from "../../ui/information-panel/InformationPanel";
+import { ICryptoAsset } from "../../../models/interfaces/CryptoAsset";
+import { ChartTypes } from "../../../models/enums/ChartTypes.enum";
 
-interface IGraphicContainer {
+interface IChartContainer {
   selectedAssets: any;
   onResetSelection: () => void;
   onClosePanel: (panelTitle: string) => void;
 }
 
-const GraphicContainer: React.FC<IGraphicContainer> = ({
+const ChartContainer: React.FC<IChartContainer> = ({
   selectedAssets,
   onResetSelection,
   onClosePanel,
 }) => {
-  const [graphicSettings, setGraphicSettings] = useState({
-    currentGraphic: "bar",
+  const { StackedBar } = ChartTypes;
+  const [chartSettings, setChartSettings] = useState({
+    currentChart: StackedBar,
     currentComparisonTitle: "Price",
     currentComparisonKey: "priceUsd",
     percentageOfTotalKey: "percentageOfTotal",
   });
 
-  const handleChangeGraphic = ({ id: graphicTabId }: any) => {
-    setGraphicSettings({
-      ...graphicSettings,
-      currentGraphic: graphicTabId,
+  const handleChangeGraphic = ({ id: chartTabId }: any) => {
+    setChartSettings({
+      ...chartSettings,
+      currentChart: chartTabId,
     });
   };
 
@@ -33,8 +36,8 @@ const GraphicContainer: React.FC<IGraphicContainer> = ({
     keyFromAsset,
     percentageOfTotalKey,
   }: any) => {
-    setGraphicSettings({
-      ...graphicSettings,
+    setChartSettings({
+      ...chartSettings,
       currentComparisonTitle: title,
       currentComparisonKey: keyFromAsset,
       percentageOfTotalKey,
@@ -44,29 +47,29 @@ const GraphicContainer: React.FC<IGraphicContainer> = ({
   return (
     <>
       <div className="w-full flex flex-col items-center space-y-8 mt-4">
-        <GraphicSettings
+        <ChartSettings
           onChangeGraphicTab={handleChangeGraphic}
           onChangeComparisonPill={handleChangeComparisonPill}
         />
       </div>
 
-      <GraphicSelector
+      <ChartSelector
         selectedAssets={selectedAssets}
         onResetSelection={onResetSelection}
-        graphicSettings={graphicSettings}
+        chartSettings={chartSettings}
       />
 
       <div className="w-full">
-        {selectedAssets.assets.map((asset: any) => {
+        {selectedAssets.assets.map((asset: ICryptoAsset) => {
           return (
             <InformationPanel
               key={asset.id}
               panelTitle={asset.symbol}
-              panelNumber={asset[graphicSettings.currentComparisonKey]}
+              panelNumber={asset[chartSettings.currentComparisonKey]}
               backgroundColor={asset.color}
               backgroundAlpha={0.3}
               percentage={`(${Number(
-                asset[graphicSettings.percentageOfTotalKey]
+                asset[chartSettings.percentageOfTotalKey]
               ).toFixed(2)})%`}
               onClosePanel={onClosePanel}
             />
@@ -77,4 +80,4 @@ const GraphicContainer: React.FC<IGraphicContainer> = ({
   );
 };
 
-export default GraphicContainer;
+export default ChartContainer;

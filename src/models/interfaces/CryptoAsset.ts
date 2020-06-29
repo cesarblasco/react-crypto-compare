@@ -1,4 +1,5 @@
 export interface ICryptoAsset {
+  [key: string]: any;
   id: string;
   changePercent24hr: string;
   marketCapUsd: string;

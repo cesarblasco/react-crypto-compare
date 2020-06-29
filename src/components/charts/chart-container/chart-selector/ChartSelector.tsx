@@ -1,30 +1,31 @@
 import React from "react";
-import ComparisonBar from "./comparison-bar/ComparisonBar";
+import StackedBarChart from "./stacked-bar-chart/StackedBarChart";
 import PieChart from "./pie-chart/PieChart";
 import BarChart from "./bar-chart/BarChart";
-import { GraphicTypes } from "../../../../models/enums/GraphicTypes.enum";
+import { ChartTypes } from "../../../../models/enums/ChartTypes.enum";
 import { ISelectedAssets } from "../../../../models/interfaces/SelectedAssets";
+import { IChartSettings } from "../../../../models/interfaces/ChartSettings";
 
-interface IGraphicSelector {
+interface IChartSelector {
   selectedAssets: ISelectedAssets;
-  graphicSettings: any;
+  chartSettings: IChartSettings;
   onResetSelection: () => void;
 }
 
-const GraphicSelector: React.FC<IGraphicSelector> = ({
+const ChartSelector: React.FC<IChartSelector> = ({
   selectedAssets,
-  graphicSettings,
+  chartSettings,
   onResetSelection,
 }) => {
-  const { HorizontalBar, Pie, Bar } = GraphicTypes;
+  const { StackedBar, Pie, Bar } = ChartTypes;
 
-  const renderCurrentGraphic = () => {
-    switch (graphicSettings.currentGraphic) {
-      case HorizontalBar:
+  const renderCurrentChart = () => {
+    switch (chartSettings.currentChart) {
+      case StackedBar:
         return (
-          <ComparisonBar
+          <StackedBarChart
             selectedAssets={selectedAssets}
-            graphicSettings={graphicSettings}
+            chartSettings={chartSettings}
           />
         );
 
@@ -32,7 +33,7 @@ const GraphicSelector: React.FC<IGraphicSelector> = ({
         return (
           <PieChart
             selectedAssets={selectedAssets}
-            graphicSettings={graphicSettings}
+            chartSettings={chartSettings}
           />
         );
 
@@ -40,7 +41,7 @@ const GraphicSelector: React.FC<IGraphicSelector> = ({
         return (
           <BarChart
             selectedAssets={selectedAssets}
-            graphicSettings={graphicSettings}
+            chartSettings={chartSettings}
           />
         );
     }
@@ -49,9 +50,9 @@ const GraphicSelector: React.FC<IGraphicSelector> = ({
   return (
     <>
       <p className="text-left w-full">
-        Total <strong>{graphicSettings.currentComparisonTitle}</strong> of
+        Total <strong>{chartSettings.currentComparisonTitle}</strong> of
         selected currencies:{" "}
-        {graphicSettings.currentComparisonTitle === "Price" ? (
+        {chartSettings.currentComparisonTitle === "Price" ? (
           <span className="font-bold">
             ${Number(selectedAssets.information.totalPrice).toFixed(2)}
           </span>
@@ -67,9 +68,9 @@ const GraphicSelector: React.FC<IGraphicSelector> = ({
           Reset selection
         </span>
       </p>
-      {renderCurrentGraphic()}
+      {renderCurrentChart()}
     </>
   );
 };
 
-export default GraphicSelector;
+export default ChartSelector;
