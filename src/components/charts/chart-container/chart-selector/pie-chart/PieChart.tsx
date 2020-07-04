@@ -1,7 +1,10 @@
 import React from "react";
 import ChartCaption from "../chart-caption/ChartCaption";
 import { ResponsivePie } from "@nivo/pie";
-import { transformNumberToReadableFormat } from "../../../../../utilities/utilities";
+import {
+  transformNumberToReadableFormat,
+  billion,
+} from "../../../../../utilities/utilities";
 import { ICryptoAsset } from "../../../../../models/interfaces/CryptoAsset";
 import { ISelectedAssets } from "../../../../../models/interfaces/SelectedAssets";
 import { IChartSettings } from "../../../../../models/interfaces/ChartSettings";
@@ -12,7 +15,6 @@ interface IPieChart {
 }
 
 const PieChart: React.FC<IPieChart> = ({ selectedAssets, chartSettings }) => {
-  const billion = 1000000000;
   const pieChartData = selectedAssets.assets.map((asset: ICryptoAsset) => {
     const assetValue = asset[chartSettings.currentComparisonKey];
     const valueToDisplay =

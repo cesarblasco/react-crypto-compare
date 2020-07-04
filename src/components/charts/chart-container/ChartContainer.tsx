@@ -46,7 +46,7 @@ const ChartContainer: React.FC<IChartContainer> = ({
 
   return (
     <>
-      <div className="w-full flex flex-col items-center space-y-8 mt-4">
+      <div className="w-full flex flex-col items-center space-y-8 my-4">
         <ChartSettings
           onChangeGraphicTab={handleChangeGraphic}
           onChangeComparisonPill={handleChangeComparisonPill}
@@ -59,7 +59,7 @@ const ChartContainer: React.FC<IChartContainer> = ({
         chartSettings={chartSettings}
       />
 
-      <div className="w-full">
+      <div className="w-full flex flex-wrap justify-center">
         {selectedAssets.assets.map((asset: ICryptoAsset) => {
           return (
             <InformationPanel

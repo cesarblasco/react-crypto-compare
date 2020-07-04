@@ -108,6 +108,8 @@ const App: React.FC<any> = () => {
 
     let newTotalPrice = 0;
     let newTotalMarketShare = 0;
+    let newTotalSupply = 0;
+    let newTotalVolume24hr = 0;
 
     if (newSelectedAssets && newSelectedAssets.length) {
       newTotalPrice = newSelectedAssets.reduce(
@@ -126,11 +128,30 @@ const App: React.FC<any> = () => {
         0
       );
 
+      newTotalSupply = newSelectedAssets.reduce(
+        (acc: number, currentAsset: ICryptoAsset) => {
+          acc = acc + parseFloat(currentAsset.supply);
+          return acc;
+        },
+        0
+      );
+
+      newTotalVolume24hr = newSelectedAssets.reduce(
+        (acc: number, currentAsset: ICryptoAsset) => {
+          acc = acc + parseFloat(currentAsset.volumeUsd24Hr);
+          return acc;
+        },
+        0
+      );
+
       newSelectedAssets = newSelectedAssets.map((asset: any) => {
         return {
           ...asset,
           color: asset.color ? asset.color : generateRandomHexColor(),
           percentageOfTotal: (asset.priceUsd * 100) / newTotalPrice,
+          supplyPercentageOfTotal: (asset.supply * 100) / newTotalSupply,
+          volume24hrPercentageOfTotal:
+            (asset.volumeUsd24Hr * 100) / newTotalVolume24hr,
           marketSharePercentageOfTotal:
             (asset.marketCapUsd * 100) / newTotalMarketShare,
         };
@@ -142,6 +163,8 @@ const App: React.FC<any> = () => {
         information: {
           ...selectedAssets.information,
           totalPrice: newTotalPrice,
+          totalSupply: newTotalSupply,
+          totalVolume24hr: newTotalVolume24hr,
           totalMarketShare: transformNumberToReadableFormat(
             newTotalMarketShare
           ),

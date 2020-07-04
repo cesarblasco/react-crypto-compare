@@ -1,3 +1,6 @@
+export const million = 1000000;
+export const billion = 1000000000;
+
 export const generateRandomHexColor = (): string => {
   return "#000000".replace(/0/g, function () {
     return (~~(Math.random() * 12)).toString(16);
@@ -20,8 +23,6 @@ export const transformNumberToReadableFormat = (
   number: number,
   hideUnit?: boolean
 ): string => {
-  const million = 1000000;
-  const billion = 1000000000;
   let newFormattedNumber = "0";
 
   if (number >= million && number < billion) {

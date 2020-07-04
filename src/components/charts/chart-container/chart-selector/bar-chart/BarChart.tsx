@@ -1,9 +1,11 @@
-import React from "react";
+import React, { useState } from "react";
 import ChartCaption from "../chart-caption/ChartCaption";
+import {
+  transformNumberToReadableFormat,
+  billion,
+} from "../../../../../utilities/utilities";
+import { ICryptoAsset } from "../../../../../models/interfaces/CryptoAsset";
 import { ResponsiveBar } from "@nivo/bar";
-
-// import { ResponsivePie } from "@nivo/pie";
-// import { hexToRGBA, transformNumberToReadableFormat } from "../../utils/utils";
 
 interface IBarChart {
   selectedAssets: any;
@@ -11,192 +13,60 @@ interface IBarChart {
 }
 
 const BarChart: React.FC<IBarChart> = ({ selectedAssets, chartSettings }) => {
-  //   const pieChartData = selectedAssets.assets.map((asset: any) => {
-  //     return {
-  //       id: asset.id,
-  //       label: `${asset.name} (${asset.symbol})`,
-  //       value: Number(
-  //         transformNumberToReadableFormat(
-  //           asset[graphicSettings.currentComparisonKey],
-  //           true
-  //         )
-  //       ),
-  //       color: asset.color,
-  //     };
-  //   });
+  const [currentLayout, setCurrentLayout] = useState();
 
-  //   console.log({ selectedAssets }, { graphicSettings }, { pieChartData });
+  const barChartData = selectedAssets.assets.map((asset: ICryptoAsset) => {
+    const assetSupply = Number(asset.supply);
+    const assetSupplyToDisplay =
+      assetSupply < billion ? assetSupply / billion : assetSupply;
 
-  const data = [
-    {
-      country: "AD",
-      "hot dog": 87,
-      "hot dogColor": "hsl(271, 70%, 50%)",
-      burger: 94,
-      burgerColor: "hsl(28, 70%, 50%)",
-      sandwich: 121,
-      sandwichColor: "hsl(262, 70%, 50%)",
-      kebab: 180,
-      kebabColor: "hsl(215, 70%, 50%)",
-      fries: 107,
-      friesColor: "hsl(74, 70%, 50%)",
-      donut: 74,
-      donutColor: "hsl(34, 70%, 50%)",
-    },
-    {
-      country: "AE",
-      "hot dog": 174,
-      "hot dogColor": "hsl(137, 70%, 50%)",
-      burger: 124,
-      burgerColor: "hsl(200, 70%, 50%)",
-      sandwich: 133,
-      sandwichColor: "hsl(11, 70%, 50%)",
-      kebab: 64,
-      kebabColor: "hsl(127, 70%, 50%)",
-      fries: 99,
-      friesColor: "hsl(106, 70%, 50%)",
-      donut: 50,
-      donutColor: "hsl(258, 70%, 50%)",
-    },
-    {
-      country: "AF",
-      "hot dog": 137,
-      "hot dogColor": "hsl(240, 70%, 50%)",
-      burger: 132,
-      burgerColor: "hsl(344, 70%, 50%)",
-      sandwich: 62,
-      sandwichColor: "hsl(272, 70%, 50%)",
-      kebab: 97,
-      kebabColor: "hsl(208, 70%, 50%)",
-      fries: 18,
-      friesColor: "hsl(83, 70%, 50%)",
-      donut: 92,
-      donutColor: "hsl(225, 70%, 50%)",
-    },
-    {
-      country: "AG",
-      "hot dog": 61,
-      "hot dogColor": "hsl(311, 70%, 50%)",
-      burger: 38,
-      burgerColor: "hsl(61, 70%, 50%)",
-      sandwich: 33,
-      sandwichColor: "hsl(272, 70%, 50%)",
-      kebab: 60,
-      kebabColor: "hsl(299, 70%, 50%)",
-      fries: 60,
-      friesColor: "hsl(33, 70%, 50%)",
-      donut: 51,
-      donutColor: "hsl(322, 70%, 50%)",
-    },
-    {
-      country: "AI",
-      "hot dog": 199,
-      "hot dogColor": "hsl(3, 70%, 50%)",
-      burger: 39,
-      burgerColor: "hsl(269, 70%, 50%)",
-      sandwich: 113,
-      sandwichColor: "hsl(306, 70%, 50%)",
-      kebab: 124,
-      kebabColor: "hsl(301, 70%, 50%)",
-      fries: 68,
-      friesColor: "hsl(317, 70%, 50%)",
-      donut: 71,
-      donutColor: "hsl(228, 70%, 50%)",
-    },
-    {
-      country: "AL",
-      "hot dog": 184,
-      "hot dogColor": "hsl(30, 70%, 50%)",
-      burger: 120,
-      burgerColor: "hsl(307, 70%, 50%)",
-      sandwich: 70,
-      sandwichColor: "hsl(260, 70%, 50%)",
-      kebab: 156,
-      kebabColor: "hsl(92, 70%, 50%)",
-      fries: 181,
-      friesColor: "hsl(138, 70%, 50%)",
-      donut: 198,
-      donutColor: "hsl(77, 70%, 50%)",
-    },
-    {
-      country: "AM",
-      "hot dog": 7,
-      "hot dogColor": "hsl(229, 70%, 50%)",
-      burger: 65,
-      burgerColor: "hsl(31, 70%, 50%)",
-      sandwich: 162,
-      sandwichColor: "hsl(71, 70%, 50%)",
-      kebab: 184,
-      kebabColor: "hsl(93, 70%, 50%)",
-      fries: 9,
-      friesColor: "hsl(35, 70%, 50%)",
-      donut: 27,
-      donutColor: "hsl(285, 70%, 50%)",
-    },
-  ];
+    const assetVolume = Number(asset.volumeUsd24Hr);
+    const assetVolumeToDisplay =
+      assetVolume < billion ? assetVolume / billion : assetVolume;
+
+    const assetMarketShare = Number(asset.marketCapUsd);
+    const assetMarketShareToDisplay =
+      assetMarketShare < billion
+        ? assetMarketShare / billion
+        : assetMarketShare;
+
+    return {
+      id: asset.id,
+      asset: `${asset.name} (${asset.symbol})`,
+      supply: Number(
+        transformNumberToReadableFormat(assetSupplyToDisplay, true)
+      ),
+      supplyColor: asset.color,
+      "volume (24hr)": Number(
+        transformNumberToReadableFormat(assetVolumeToDisplay, true)
+      ),
+      "volume (24hr)Color": "hsl(215, 70%, 50%)",
+      "market share": Number(
+        transformNumberToReadableFormat(assetMarketShareToDisplay, true)
+      ),
+      "market shareColor": "hsl(271, 70%, 50%)",
+    };
+  });
+
+  const handleToggleLayout = () => {
+    const newLayout =
+      !currentLayout || currentLayout === "vertical"
+        ? "horizontal"
+        : "vertical";
+    setCurrentLayout(newLayout);
+  };
 
   return (
-    <figure style={{ height: "350px", width: "80%" }}>
+    <figure style={{ height: "350px", width: "80%", marginBottom: "120px" }}>
       <ResponsiveBar
-        data={data}
-        keys={["hot dog", "burger", "sandwich", "kebab", "fries", "donut"]}
-        indexBy="country"
+        data={barChartData}
+        keys={["market share", "supply", "volume (24hr)"]}
+        indexBy="asset"
         margin={{ top: 50, right: 130, bottom: 50, left: 60 }}
         padding={0.3}
         colors={{ scheme: "nivo" }}
-        defs={[
-          {
-            id: "dots",
-            type: "patternDots",
-            background: "inherit",
-            color: "#38bcb2",
-            size: 4,
-            padding: 1,
-            stagger: true,
-          },
-          {
-            id: "lines",
-            type: "patternLines",
-            background: "inherit",
-            color: "#eed312",
-            rotation: -45,
-            lineWidth: 6,
-            spacing: 10,
-          },
-        ]}
-        fill={[
-          {
-            match: {
-              id: "fries",
-            },
-            id: "dots",
-          },
-          {
-            match: {
-              id: "sandwich",
-            },
-            id: "lines",
-          },
-        ]}
+        layout={currentLayout || "vertical"}
         borderColor={{ from: "color", modifiers: [["darker", 1.6]] }}
-        axisTop={null}
-        axisRight={null}
-        axisBottom={{
-          tickSize: 5,
-          tickPadding: 5,
-          tickRotation: 0,
-          legend: "country",
-          legendPosition: "middle",
-          legendOffset: 32,
-        }}
-        axisLeft={{
-          tickSize: 5,
-          tickPadding: 5,
-          tickRotation: 0,
-          legend: "food",
-          legendPosition: "middle",
-          legendOffset: -40,
-        }}
         labelSkipWidth={12}
         labelSkipHeight={12}
         labelTextColor={{ from: "color", modifiers: [["darker", 1.6]] }}
@@ -229,7 +99,18 @@ const BarChart: React.FC<IBarChart> = ({ selectedAssets, chartSettings }) => {
         motionDamping={15}
       />
 
-      <ChartCaption chartSettings={chartSettings} />
+      <div style={{ marginTop: "20px" }}>
+        <div className="flex justify-center mb-2">
+          <button
+            className="bg-blue-600 p-2 font-bold text-white hover:bg-blue-700 focus:border-blue-500"
+            onClick={handleToggleLayout}
+          >
+            Toggle layout
+          </button>
+        </div>
+
+        <ChartCaption chartSettings={chartSettings} />
+      </div>
     </figure>
   );
 };

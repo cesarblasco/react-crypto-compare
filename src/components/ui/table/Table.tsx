@@ -2,6 +2,9 @@ import React, { useState } from "react";
 import ReactTooltip from "react-tooltip";
 import { ITableHeader } from "../../../models/interfaces/TableHeader";
 import { SortingTypes } from "../../../models/enums/SortingTypes.enum";
+import notSortedIcon from "../../../images/icons/not-sorted.svg";
+import sortAscentIcon from "../../../images/icons/sort-ascent.svg";
+import sortDescentIcon from "../../../images/icons/sort-descent.svg";
 
 interface ITable {
   headers: ITableHeader[];
@@ -47,17 +50,15 @@ const Table: React.FC<ITable> = ({ children, headers, onSort }) => {
 
   const renderSortArrow = (header: ITableHeader) => {
     return (
-      <span className="pull-right">
-        {currentSortedHeader &&
-        header.title === currentSortedHeader.title &&
-        currentSortedHeader.currentSort ? (
-          currentSortedHeader.currentSort === "desc" ? (
-            <span className="text-xs">▲</span>
+      <span className="">
+        {currentSortedHeader && header.title === currentSortedHeader.title ? (
+          currentSortedHeader.currentSort === Descending ? (
+            <img className="w-3 h-3 pt-1" src={sortAscentIcon} />
           ) : (
-            <span className="text-xs">▼</span>
+            <img className="w-3 h-3 pt-1" src={sortDescentIcon} />
           )
         ) : (
-          <span className="text-lg">-</span>
+          <img className="w-3 h-3 pt-1" src={notSortedIcon} />
         )}
       </span>
     );
@@ -65,14 +66,14 @@ const Table: React.FC<ITable> = ({ children, headers, onSort }) => {
 
   return (
     <>
-      <table className="w-full mt-4">
+      <table className="table-fixed w-full mt-4">
         <thead>
           <tr>
             {headers.map((header: ITableHeader) => {
               return header.title && header.isVisible ? (
                 <th
                   style={{ width: `${header.width}%` }}
-                  className={`font-extrabold text-gray-500 text-left border-solid border-gray-400 border-b-2 ${
+                  className={`font-extrabold text-gray-600 text-left border-solid border-gray-400 border-b-2 ${
                     header.sortBy ? "cursor-pointer" : ""
                   }`}
                   data-tip
@@ -87,7 +88,7 @@ const Table: React.FC<ITable> = ({ children, headers, onSort }) => {
                     </ReactTooltip>
                   )}
                   {header.sortBy && (
-                    <span className="float-right mr-4">
+                    <span className="inline-block float-right pr-2 pt-1">
                       {renderSortArrow(header)}
                     </span>
                   )}

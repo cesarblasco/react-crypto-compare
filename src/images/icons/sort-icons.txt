@@ -1,0 +1,9 @@
+An icon library for only 3 icons would be overkill so I downloaded these from the following links:
+
+https://freeicons.io/material-icons-av/sort-arrows-couple-pointing-up-and-down-icon-37186# (not-sorted)
+
+https://freeicons.io/material-icons-av/sort-up-icon-37194# (sort-ascent)
+
+https://freeicons.io/material-icons-av/sort-down-icon-37192# (sort-descent)
+
+

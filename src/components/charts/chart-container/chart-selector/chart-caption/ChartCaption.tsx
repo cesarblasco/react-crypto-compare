@@ -7,16 +7,32 @@ interface IChartCaption {
 }
 
 const ChartCaption: React.FC<IChartCaption> = ({ chartSettings }) => {
-  const { Pie } = ChartTypes;
+  const { Pie, Bar } = ChartTypes;
+
+  const renderCurrentChartExtraCaptionText = () => {
+    switch (chartSettings.currentChart) {
+      case Pie:
+        return chartSettings.currentComparisonKey !== "priceUsd" ? (
+          <span>Values expressed in billions USD.</span>
+        ) : null;
+
+      case Bar:
+        return (
+          <span>
+            Displays all values (except price) for each asset (in billions USD)
+          </span>
+        );
+
+      default:
+        return null;
+    }
+  };
+
   return (
     <figcaption>
       <h3 className="text-center">
         {chartSettings.currentComparisonTitle} {chartSettings.currentChart}{" "}
-        chart.{" "}
-        {chartSettings.currentComparisonKey !== "priceUsd" &&
-          chartSettings.currentChart === Pie && (
-            <span>Values expressed in billions USD.</span>
-          )}
+        chart. <>{renderCurrentChartExtraCaptionText()}</>
       </h3>
     </figcaption>
   );

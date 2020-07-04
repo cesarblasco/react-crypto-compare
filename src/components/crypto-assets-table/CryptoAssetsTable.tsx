@@ -20,6 +20,7 @@ const CryptoAssetsTable: React.FC<ICryptoAssetsTable> = ({
       sortBy: "name",
       isVisible: true,
       tooltip: "Name of the asset",
+      width: 20,
     },
     {
       title: "Price",

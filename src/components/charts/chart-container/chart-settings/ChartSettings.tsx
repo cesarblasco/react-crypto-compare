@@ -13,8 +13,8 @@ const ChartSettings: React.FC<IChartSettings> = ({
   onChangeGraphicTab,
   onChangeComparisonPill,
 }) => {
-  const { StackedBar, Pie, Bar } = ChartTypes;
-  const { Price, MarketShare } = ComparisonTypes;
+  const { StackedBar, Pie, Bar, Volume24hr } = ChartTypes;
+  const { Price, MarketShare, Supply } = ComparisonTypes;
 
   const graphicTabs = [
     {
@@ -54,6 +54,22 @@ const ChartSettings: React.FC<IChartSettings> = ({
       visible: true,
       active: false,
     },
+    {
+      id: Supply,
+      title: "Supply",
+      keyFromAsset: "supply",
+      percentageOfTotalKey: "supplyPercentageOfTotal",
+      visible: true,
+      active: false,
+    },
+    {
+      id: Volume24hr,
+      title: "Volume (24 hr)",
+      keyFromAsset: "volumeUsd24Hr",
+      percentageOfTotalKey: "volume24hrPercentageOfTotal",
+      visible: true,
+      active: false,
+    },
   ];
 
   const [currentGraphicTab, setCurrentGraphicTab] = useState(graphicTabs[0]);
@@ -73,21 +89,22 @@ const ChartSettings: React.FC<IChartSettings> = ({
 
   return (
     <>
-      {currentGraphicTab ? (
-        <Tabs
-          tabs={graphicTabs}
-          onChangeTab={handleGraphicTabChange}
-          selectedTab={currentGraphicTab}
-          fontSize={19}
-        />
-      ) : null}
-      <div className="mt-4">
-        <Pills
-          pills={graphicComparisonPills}
-          selectedPill={currentComparisonPill}
-          onClick={handleComparisonPillChange}
-        />
-      </div>
+      <Tabs
+        tabs={graphicTabs}
+        onChangeTab={handleGraphicTabChange}
+        selectedTab={currentGraphicTab}
+        fontSize={19}
+      />
+
+      {currentGraphicTab.id !== Bar && (
+        <div className="mt-4">
+          <Pills
+            pills={graphicComparisonPills}
+            selectedPill={currentComparisonPill}
+            onClick={handleComparisonPillChange}
+          />
+        </div>
+      )}
     </>
   );
 };
