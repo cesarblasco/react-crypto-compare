@@ -4,6 +4,7 @@ import ChartContainer from "./components/charts/chart-container/ChartContainer";
 import CryptoAssetsTable from "./components/crypto-assets-table/CryptoAssetsTable";
 import Pagination from "./components/ui/pagination/Pagination";
 import Spinner from "./components/ui/spinner/Spinner";
+import Toasty from "./components/ui/toasty/Toasty";
 import NoDataAvailable from "./components/ui/no-data-available/NoDataAvailable";
 import {
   generateRandomHexColor,
@@ -258,6 +259,15 @@ const App: React.FC<any> = () => {
 
         {selectedAssets && selectedAssets.assets.length ? (
           <>
+            <Toasty
+              title={`${
+                selectedAssets.assets[selectedAssets.assets.length - 1].name
+              } added`}
+              message="Add more assets or <a class='text-yellow-400 font-bold underline' href='#'>go to top</a> to begin comparing"
+              duration={4000}
+              key={Math.random()}
+            />
+
             <ChartContainer
               selectedAssets={selectedAssets}
               onResetSelection={handleResetSelection}
