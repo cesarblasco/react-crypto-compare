@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import ChartSettings from "./chart-settings/ChartSettings";
 import ChartSelector from "./chart-selector/ChartSelector";
 import InformationPanel from "../../ui/information-panel/InformationPanel";

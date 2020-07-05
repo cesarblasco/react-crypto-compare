@@ -104,9 +104,7 @@ const Pagination: React.FC<IPagination> = ({
                   : ""
               }`}
             >
-              <a>
-                <span>{`${"<"}`}</span>
-              </a>
+              <span>{`${"<"}`}</span>
             </li>
             {state.currentPage > 4 && (
               <>

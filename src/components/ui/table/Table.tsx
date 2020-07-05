@@ -53,12 +53,24 @@ const Table: React.FC<ITable> = ({ children, headers, onSort }) => {
       <span className="">
         {currentSortedHeader && header.title === currentSortedHeader.title ? (
           currentSortedHeader.currentSort === Descending ? (
-            <img className="w-3 h-3 pt-1" src={sortAscentIcon} />
+            <img
+              className="w-3 h-3 pt-1"
+              alt={"column is sorted in ascending order"}
+              src={sortAscentIcon}
+            />
           ) : (
-            <img className="w-3 h-3 pt-1" src={sortDescentIcon} />
+            <img
+              className="w-3 h-3 pt-1"
+              alt={"column is sorted in descending order"}
+              src={sortDescentIcon}
+            />
           )
         ) : (
-          <img className="w-3 h-3 pt-1" src={notSortedIcon} />
+          <img
+            className="w-3 h-3 pt-1"
+            alt={"sort column in ascending order"}
+            src={notSortedIcon}
+          />
         )}
       </span>
     );

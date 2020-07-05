@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import Table from "../ui/table/Table";
 import { transformNumberToReadableFormat } from "../../utilities/utilities";
 import { ITableHeader } from "../../models/interfaces/TableHeader";
