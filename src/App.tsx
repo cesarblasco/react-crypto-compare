@@ -265,7 +265,7 @@ const App: React.FC<any> = () => {
               } added`}
               message="Add more assets or <a class='text-yellow-400 font-bold underline' href='#'>go to top</a> to begin comparing"
               duration={4000}
-              key={Math.random()}
+              key={selectedAssets.assets.length % 2 === 0 ? 1 : 2}
             />
 
             <ChartContainer
