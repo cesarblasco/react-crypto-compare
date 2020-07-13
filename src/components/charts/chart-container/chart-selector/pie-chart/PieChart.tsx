@@ -1,10 +1,6 @@
 import React from "react";
 import ChartCaption from "../chart-caption/ChartCaption";
 import { ResponsivePie } from "@nivo/pie";
-import {
-  transformNumberToReadableFormat,
-  billion,
-} from "../../../../../utilities/utilities";
 import { ICryptoAsset } from "../../../../../models/interfaces/CryptoAsset";
 import { ISelectedAssets } from "../../../../../models/interfaces/SelectedAssets";
 import { IChartSettings } from "../../../../../models/interfaces/ChartSettings";
@@ -16,15 +12,15 @@ interface IPieChart {
 
 const PieChart: React.FC<IPieChart> = ({ selectedAssets, chartSettings }) => {
   const pieChartData = selectedAssets.assets.map((asset: ICryptoAsset) => {
-    const assetValue = asset[chartSettings.currentComparisonKey];
-    const valueToDisplay =
-      assetValue < billion && chartSettings.currentComparisonKey !== "priceUsd"
-        ? assetValue / billion
-        : assetValue;
+    let assetValue = asset[chartSettings.currentComparisonKey];
+
+    const nf = Intl.NumberFormat();
+
     return {
       id: asset.id,
       label: `${asset.name} (${asset.symbol})`,
-      value: Number(transformNumberToReadableFormat(valueToDisplay, true)),
+      value: parseFloat(assetValue),
+      formattedValue: parseFloat(nf.format(assetValue)),
       color: asset.color,
     };
   });
@@ -54,6 +50,12 @@ const PieChart: React.FC<IPieChart> = ({ selectedAssets, chartSettings }) => {
         radialLabelsLinkColor={{ from: "color" }}
         slicesLabelsSkipAngle={10}
         slicesLabelsTextColor="#000"
+        enableSlicesLabels={false}
+        tooltip={({ label, formattedValue }) => (
+          <>
+            {label} <strong>${formattedValue}</strong>
+          </>
+        )}
         animate={true}
         motionStiffness={90}
         motionDamping={15}

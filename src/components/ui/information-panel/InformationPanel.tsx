@@ -11,10 +11,12 @@ interface IInformationPanel {
   backgroundAlpha: number;
   percentage: string;
   onClosePanel: (panelTitle: string) => void;
+  panelSubtitle?: string;
 }
 
 const InformationPanel: React.FC<IInformationPanel> = ({
   panelTitle,
+  panelSubtitle,
   panelNumber,
   backgroundColor,
   percentage,
@@ -33,10 +35,10 @@ const InformationPanel: React.FC<IInformationPanel> = ({
       }}
     >
       <div className="w-full my-4">
-        <div className="text-center pb-2">
+        <div className="text-center pl-4">
           <h1
             style={{ color: backgroundColor }}
-            className="pl-4 font-bold text-lg inline-block"
+            className="font-bold text-lg inline-block"
           >
             {panelTitle}
           </h1>
@@ -48,6 +50,15 @@ const InformationPanel: React.FC<IInformationPanel> = ({
           >
             &times;
           </span>
+
+          {panelSubtitle && (
+            <h2
+              className="text-sm font-bold truncate"
+              style={{ color: backgroundColor }}
+            >
+              ({panelSubtitle})
+            </h2>
+          )}
         </div>
       </div>
 
@@ -56,7 +67,7 @@ const InformationPanel: React.FC<IInformationPanel> = ({
           style={{ color: backgroundColor }}
           className="text-2xl ml-6 font-extrabold"
         >
-          {`${transformNumberToReadableFormat(panelNumber)}$`}
+          {`$${transformNumberToReadableFormat(panelNumber)}`}
         </span>
 
         <span

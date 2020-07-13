@@ -54,9 +54,9 @@ const Pills: React.FC<IPills> = ({
       {state.pills.map((pill: any) => {
         return (
           pill.visible && (
-            <div
+            <button
               key={pill.id}
-              className={`cursor-pointer rounded-full py-2 px-4 inline-block mr-4 ${
+              className={`cursor-pointer rounded-full py-2 px-4 inline-block mr-4 focus:outline-none ${
                 pill.active
                   ? "bg-blue-600 text-white font-semibold"
                   : "border-solid border-2 border-black-500"
@@ -64,7 +64,7 @@ const Pills: React.FC<IPills> = ({
               onClick={() => handleClick(pill)}
             >
               {pill.title}
-            </div>
+            </button>
           )
         );
       })}

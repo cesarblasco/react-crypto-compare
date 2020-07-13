@@ -49,10 +49,10 @@ const Tabs: React.FC<ITabs> = ({
       {state.tabs.map((tab: any) => {
         return (
           tab.visible && (
-            <div
+            <button
               key={tab.id}
               role="tab"
-              className="inline-block mr-6"
+              className="inline-block mr-6 focus:outline-none"
               onClick={() => onChangeTab(tab)}
             >
               <span
@@ -63,7 +63,7 @@ const Tabs: React.FC<ITabs> = ({
               >
                 {tab.title}
               </span>
-            </div>
+            </button>
           )
         );
       })}

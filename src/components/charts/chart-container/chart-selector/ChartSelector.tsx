@@ -9,13 +9,11 @@ import { IChartSettings } from "../../../../models/interfaces/ChartSettings";
 interface IChartSelector {
   selectedAssets: ISelectedAssets;
   chartSettings: IChartSettings;
-  onResetSelection: () => void;
 }
 
 const ChartSelector: React.FC<IChartSelector> = ({
   selectedAssets,
   chartSettings,
-  onResetSelection,
 }) => {
   const { StackedBar, Pie, Bar } = ChartTypes;
 
@@ -47,30 +45,7 @@ const ChartSelector: React.FC<IChartSelector> = ({
     }
   };
 
-  return (
-    <>
-      <p className="text-left w-full">
-        Total <strong>{chartSettings.currentComparisonTitle}</strong> of
-        selected currencies:{" "}
-        {chartSettings.currentComparisonTitle === "Price" ? (
-          <span className="font-bold">
-            ${Number(selectedAssets.information.totalPrice).toFixed(2)}
-          </span>
-        ) : (
-          <span className="font-bold">
-            ${selectedAssets.information.totalMarketShare}
-          </span>
-        )}
-        <span
-          onClick={onResetSelection}
-          className="ml-2 underline font-blue-500 cursor-pointer"
-        >
-          Reset selection
-        </span>
-      </p>
-      {renderCurrentChart()}
-    </>
-  );
+  return <>{renderCurrentChart()}</>;
 };
 
 export default ChartSelector;

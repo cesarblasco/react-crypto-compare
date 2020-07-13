@@ -32,6 +32,8 @@ const App: React.FC<any> = () => {
     information: {
       totalPrice: 0,
       totalMarketShare: "0",
+      totalVolume24hr: "0",
+      totalSupply: "0",
     },
   };
 
@@ -101,48 +103,41 @@ const App: React.FC<any> = () => {
     return modifiedSelectedAssets;
   };
 
+  const createNewTotalByAttribute = (
+    assets: ICryptoAsset[],
+    attribute: string
+  ) => {
+    return assets.reduce((acc: number, currentAsset: ICryptoAsset) => {
+      acc = acc + parseFloat(currentAsset[attribute]);
+      return acc;
+    }, 0);
+  };
+
   const handleAssetCheck = (event: any, asset: ICryptoAsset) => {
     let newSelectedAssets = addOrRemoveAssetFromSelectedAssets(
       event.target.checked,
       asset
     );
 
-    let newTotalPrice = 0;
-    let newTotalMarketShare = 0;
-    let newTotalSupply = 0;
-    let newTotalVolume24hr = 0;
-
     if (newSelectedAssets && newSelectedAssets.length) {
-      newTotalPrice = newSelectedAssets.reduce(
-        (acc: number, currentAsset: any) => {
-          acc = acc + parseFloat(currentAsset.priceUsd);
-          return acc;
-        },
-        0
+      const newTotalPrice = createNewTotalByAttribute(
+        newSelectedAssets,
+        "priceUsd"
       );
 
-      newTotalMarketShare = newSelectedAssets.reduce(
-        (acc: number, currentAsset: ICryptoAsset) => {
-          acc = acc + parseFloat(currentAsset.marketCapUsd);
-          return acc;
-        },
-        0
+      const newTotalMarketShare = createNewTotalByAttribute(
+        newSelectedAssets,
+        "marketCapUsd"
       );
 
-      newTotalSupply = newSelectedAssets.reduce(
-        (acc: number, currentAsset: ICryptoAsset) => {
-          acc = acc + parseFloat(currentAsset.supply);
-          return acc;
-        },
-        0
+      const newTotalSupply = createNewTotalByAttribute(
+        newSelectedAssets,
+        "supply"
       );
 
-      newTotalVolume24hr = newSelectedAssets.reduce(
-        (acc: number, currentAsset: ICryptoAsset) => {
-          acc = acc + parseFloat(currentAsset.volumeUsd24Hr);
-          return acc;
-        },
-        0
+      const newTotalVolume24hr = createNewTotalByAttribute(
+        newSelectedAssets,
+        "volumeUsd24Hr"
       );
 
       newSelectedAssets = newSelectedAssets.map((asset: any) => {
@@ -164,8 +159,8 @@ const App: React.FC<any> = () => {
         information: {
           ...selectedAssets.information,
           totalPrice: newTotalPrice,
-          totalSupply: newTotalSupply,
-          totalVolume24hr: newTotalVolume24hr,
+          totalSupply: transformNumberToReadableFormat(newTotalSupply),
+          totalVolume24hr: transformNumberToReadableFormat(newTotalVolume24hr),
           totalMarketShare: transformNumberToReadableFormat(
             newTotalMarketShare
           ),

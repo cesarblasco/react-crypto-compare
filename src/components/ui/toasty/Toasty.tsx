@@ -29,13 +29,13 @@ const Toasty: React.FC<IToasty> = ({ title, message, duration = null }) => {
     return () => clearTimeout(closeToastyTimeout);
   }, [title, message]);
 
-  const pauseToastyCloseTimeout = () => {
+  const pauseCloseToastyTimeout = () => {
     if (duration) {
       clearTimeout(closeToastyTimeout);
     }
   };
 
-  const resetToastyCloseTimeout = () => {
+  const resetCloseToastyTimeout = () => {
     if (duration) {
       closeToastyTimeout = setTimeout(() => {
         setIsDisplayed(false);
@@ -46,10 +46,11 @@ const Toasty: React.FC<IToasty> = ({ title, message, duration = null }) => {
   return (
     <>
       {isDisplayed && (
-        <div
-          onMouseOver={pauseToastyCloseTimeout}
-          onMouseLeave={resetToastyCloseTimeout}
-          className="fixed right-0 p-4 bg-green-500 text-white rounded-lg w-64 mr-16 mt-10 shadow-lg"
+        <dialog
+          open
+          onMouseOver={pauseCloseToastyTimeout}
+          onMouseLeave={resetCloseToastyTimeout}
+          className={`fixed right-0 p-4 bg-green-500 text-white rounded-lg w-64 mr-16 mt-10 shadow-lg`}
         >
           <span
             aria-label="Close toasty message"
@@ -59,13 +60,18 @@ const Toasty: React.FC<IToasty> = ({ title, message, duration = null }) => {
             &times;
           </span>
           <div className="pb-2 w-75">
-            <h1 className="font-bold text-lg inline-block">{title}</h1>
+            <h1
+              className="font-bold text-lg inline-block"
+              style={{ maxWidth: "85%" }}
+            >
+              {title}
+            </h1>
           </div>
           <div
             className="text-2x1"
             dangerouslySetInnerHTML={{ __html: message }}
           ></div>
-        </div>
+        </dialog>
       )}
     </>
   );

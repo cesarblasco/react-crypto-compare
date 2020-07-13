@@ -1,3 +1,4 @@
+export const thousand = 1000;
 export const million = 1000000;
 export const billion = 1000000000;
 
@@ -25,16 +26,18 @@ export const transformNumberToReadableFormat = (
 ): string => {
   let newFormattedNumber = "0";
 
-  if (number >= million && number < billion) {
-    newFormattedNumber = `${Number(number / million).toFixed(2)}`;
-    if (!hideUnit) {
-      newFormattedNumber += "m";
-    }
+  if (number >= thousand && number < million) {
+    newFormattedNumber = `${Number(number / thousand).toFixed(2)}${
+      !hideUnit ? "k" : ""
+    }`;
+  } else if (number >= million && number < billion) {
+    newFormattedNumber = `${Number(number / million).toFixed(2)}${
+      !hideUnit ? "m" : ""
+    }`;
   } else if (number >= billion) {
-    newFormattedNumber = `${Number(number / billion).toFixed(2)}`;
-    if (!hideUnit) {
-      newFormattedNumber += "b";
-    }
+    newFormattedNumber = `${Number(number / billion).toFixed(2)}${
+      !hideUnit ? "b" : ""
+    }`;
   } else {
     newFormattedNumber = `${Number(number).toFixed(2)}`;
   }

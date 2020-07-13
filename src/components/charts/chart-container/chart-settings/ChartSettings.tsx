@@ -5,21 +5,21 @@ import { ChartTypes } from "../../../../models/enums/ChartTypes.enum";
 import { ComparisonTypes } from "../../../../models/enums/ComparisonTypes.enum";
 
 interface IChartSettings {
-  onChangeGraphicTab: (selectedGraphicTab: any) => void;
+  onChangeChartTab: (selectedChartTab: any) => void;
   onChangeComparisonPill: (selectedComparisonPill: any) => void;
 }
 
 const ChartSettings: React.FC<IChartSettings> = ({
-  onChangeGraphicTab,
+  onChangeChartTab,
   onChangeComparisonPill,
 }) => {
   const { StackedBar, Pie, Bar, Volume24hr } = ChartTypes;
   const { Price, MarketShare, Supply } = ComparisonTypes;
 
-  const graphicTabs = [
+  const chartTabs = [
     {
       id: StackedBar,
-      title: "Stacked Bar",
+      title: "Horizontal Stacked Bar",
       visible: true,
       active: true,
     },
@@ -31,18 +31,19 @@ const ChartSettings: React.FC<IChartSettings> = ({
     },
     {
       id: Bar,
-      title: "Bar chart",
+      title: "Multiple Bar chart",
       visible: true,
       active: false,
     },
   ];
 
-  const graphicComparisonPills = [
+  const chartComparisonPills = [
     {
       id: Price,
       title: "Price",
       keyFromAsset: "priceUsd",
       percentageOfTotalKey: "percentageOfTotal",
+      totalOfSelectedKey: "totalPrice",
       visible: true,
       active: false,
     },
@@ -51,6 +52,7 @@ const ChartSettings: React.FC<IChartSettings> = ({
       title: "Market Cap",
       keyFromAsset: "marketCapUsd",
       percentageOfTotalKey: "marketSharePercentageOfTotal",
+      totalOfSelectedKey: "totalMarketShare",
       visible: true,
       active: false,
     },
@@ -59,6 +61,7 @@ const ChartSettings: React.FC<IChartSettings> = ({
       title: "Supply",
       keyFromAsset: "supply",
       percentageOfTotalKey: "supplyPercentageOfTotal",
+      totalOfSelectedKey: "totalSupply",
       visible: true,
       active: false,
     },
@@ -67,19 +70,20 @@ const ChartSettings: React.FC<IChartSettings> = ({
       title: "Volume (24 hr)",
       keyFromAsset: "volumeUsd24Hr",
       percentageOfTotalKey: "volume24hrPercentageOfTotal",
+      totalOfSelectedKey: "totalVolume24hr",
       visible: true,
       active: false,
     },
   ];
 
-  const [currentGraphicTab, setCurrentGraphicTab] = useState(graphicTabs[0]);
+  const [currentChartTab, setCurrentChartTab] = useState(chartTabs[0]);
   const [currentComparisonPill, setCurrentComparisonPill] = useState(
-    graphicComparisonPills[0]
+    chartComparisonPills[0]
   );
 
-  const handleGraphicTabChange = (selectedGraphicTab: any) => {
-    setCurrentGraphicTab(selectedGraphicTab);
-    onChangeGraphicTab(selectedGraphicTab);
+  const handleChartTabChange = (selectedChartTab: any) => {
+    setCurrentChartTab(selectedChartTab);
+    onChangeChartTab(selectedChartTab);
   };
 
   const handleComparisonPillChange = (selectedComparisonPill: any) => {
@@ -90,16 +94,16 @@ const ChartSettings: React.FC<IChartSettings> = ({
   return (
     <>
       <Tabs
-        tabs={graphicTabs}
-        onChangeTab={handleGraphicTabChange}
-        selectedTab={currentGraphicTab}
+        tabs={chartTabs}
+        onChangeTab={handleChartTabChange}
+        selectedTab={currentChartTab}
         fontSize={19}
       />
 
-      {currentGraphicTab.id !== Bar && (
+      {currentChartTab.id !== Bar && (
         <div className="mt-4">
           <Pills
-            pills={graphicComparisonPills}
+            pills={chartComparisonPills}
             selectedPill={currentComparisonPill}
             onClick={handleComparisonPillChange}
           />

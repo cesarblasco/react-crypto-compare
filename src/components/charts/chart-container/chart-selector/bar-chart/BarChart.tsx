@@ -1,9 +1,5 @@
 import React, { useState } from "react";
 import ChartCaption from "../chart-caption/ChartCaption";
-import {
-  transformNumberToReadableFormat,
-  billion,
-} from "../../../../../utilities/utilities";
 import { ICryptoAsset } from "../../../../../models/interfaces/CryptoAsset";
 import { ResponsiveBar } from "@nivo/bar";
 
@@ -15,35 +11,17 @@ interface IBarChart {
 const BarChart: React.FC<IBarChart> = ({ selectedAssets, chartSettings }) => {
   const [currentLayout, setCurrentLayout] = useState();
 
+  const nf = Intl.NumberFormat();
+
   const barChartData = selectedAssets.assets.map((asset: ICryptoAsset) => {
-    const assetSupply = Number(asset.supply);
-    const assetSupplyToDisplay =
-      assetSupply < billion ? assetSupply / billion : assetSupply;
-
-    const assetVolume = Number(asset.volumeUsd24Hr);
-    const assetVolumeToDisplay =
-      assetVolume < billion ? assetVolume / billion : assetVolume;
-
-    const assetMarketShare = Number(asset.marketCapUsd);
-    const assetMarketShareToDisplay =
-      assetMarketShare < billion
-        ? assetMarketShare / billion
-        : assetMarketShare;
-
     return {
       id: asset.id,
       asset: `${asset.name} (${asset.symbol})`,
-      supply: Number(
-        transformNumberToReadableFormat(assetSupplyToDisplay, true)
-      ),
+      supply: parseFloat(asset.supply),
       supplyColor: asset.color,
-      "volume (24hr)": Number(
-        transformNumberToReadableFormat(assetVolumeToDisplay, true)
-      ),
+      "volume (24hr)": parseFloat(asset.volumeUsd24Hr),
       "volume (24hr)Color": "hsl(215, 70%, 50%)",
-      "market share": Number(
-        transformNumberToReadableFormat(assetMarketShareToDisplay, true)
-      ),
+      "market share": parseFloat(asset.marketCapUsd),
       "market shareColor": "hsl(271, 70%, 50%)",
     };
   });
@@ -70,6 +48,12 @@ const BarChart: React.FC<IBarChart> = ({ selectedAssets, chartSettings }) => {
         labelSkipWidth={12}
         labelSkipHeight={12}
         labelTextColor={{ from: "color", modifiers: [["darker", 1.6]] }}
+        enableLabel={false}
+        tooltip={({ id, value }) => (
+          <>
+            {id}: <strong>${nf.format(value)} </strong>
+          </>
+        )}
         legends={[
           {
             dataFrom: "keys",

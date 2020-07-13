@@ -7,21 +7,12 @@ interface IChartCaption {
 }
 
 const ChartCaption: React.FC<IChartCaption> = ({ chartSettings }) => {
-  const { Pie, Bar } = ChartTypes;
+  const { StackedBar } = ChartTypes;
 
   const renderCurrentChartExtraCaptionText = () => {
     switch (chartSettings.currentChart) {
-      case Pie:
-        return chartSettings.currentComparisonKey !== "priceUsd" ? (
-          <span>Values expressed in billions USD.</span>
-        ) : null;
-
-      case Bar:
-        return (
-          <span>
-            Displays all values (except price) for each asset (in billions USD)
-          </span>
-        );
+      case StackedBar:
+        return <span>Dev note: This chart was made my me :)</span>;
 
       default:
         return null;

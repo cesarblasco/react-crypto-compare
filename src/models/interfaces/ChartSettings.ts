@@ -3,4 +3,5 @@ export interface IChartSettings {
   currentComparisonTitle: string;
   currentComparisonKey: string;
   percentageOfTotalKey: string;
+  totalOfSelectedKey: string;
 }
