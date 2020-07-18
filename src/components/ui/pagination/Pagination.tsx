@@ -92,8 +92,8 @@ const Pagination: React.FC<IPagination> = ({
 
   return totalData > 0 ? (
     <>
-      <div className="flex mt-6 mb-4">
-        <nav className="inline-block w-3/4">
+      <div className="flex flex-col mt-6 mb-4 text-center md:flex-row md:text-left">
+        <nav className="w-full md:w-3/4 mb-2">
           <ul>
             <li
               onClick={() => handlePageChange(state.currentPage - 1)}

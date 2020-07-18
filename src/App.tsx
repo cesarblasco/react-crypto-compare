@@ -270,15 +270,15 @@ const App: React.FC<any> = () => {
           </>
         ) : null}
 
-        <div className="w-4/5">
+        <div className="md:w-4/5 w-full">
           <div className="md:flex mt-8 w-full justify-between">
-            <div className="font-semibold sm:mb-2 md:mb-0">
+            <div className="font-semibold mb-2 md:mb-0">
               {assets.responseAssets.length} cryptocurrencies
               {selectedAssets.assets && selectedAssets.assets.length ? (
                 <span> ({selectedAssets.assets.length} checked)</span>
               ) : null}
             </div>
-            <div className="flex-end sm:mb-2 md:mb-0">
+            <div className="flex-end mb-2 md:mb-0">
               <SearchBar onSearch={handleSearch} placeholder="Search..." />
             </div>
           </div>

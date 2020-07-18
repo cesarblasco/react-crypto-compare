@@ -55,37 +55,41 @@ const CryptoAssetsTable: React.FC<ICryptoAssetsTable> = ({
   ];
 
   return (
-    <Table headers={tableHeaders} onSort={onSort}>
-      {cryptoAssets.map((asset: any) => {
-        return (
-          <tr
-            key={asset.id}
-            className="border-solid border-gray-300 border-b-2"
-          >
-            <td className="py-4 pr-4">
-              <input
-                onChange={(evt) => onAssetCheck(evt, asset)}
-                className="mr-2 w-20-px"
-                checked={asset.isChecked}
-                type="checkbox"
-              />
-              {asset.name} ({asset.symbol})
-            </td>
-            <td className="py-4 pr-4">${Number(asset.priceUsd).toFixed(2)}</td>
-            <td className="py-4 pr-4">
-              ${transformNumberToReadableFormat(asset.supply)}
-            </td>
-            <td className="py-4 pr-4">
-              ${transformNumberToReadableFormat(asset.marketCapUsd)}
-            </td>
-            <td className="py-4 pr-4">
-              ${transformNumberToReadableFormat(asset.volumeUsd24Hr)}
-            </td>
-            <td className="py-4 pr-4">{asset.rank}</td>
-          </tr>
-        );
-      })}
-    </Table>
+    <div className="md:text-base text-xs">
+      <Table headers={tableHeaders} onSort={onSort}>
+        {cryptoAssets.map((asset: any) => {
+          return (
+            <tr
+              key={asset.id}
+              className="border-solid border-gray-300 border-b-2"
+            >
+              <td className="py-4 pr-4">
+                <input
+                  onChange={(evt) => onAssetCheck(evt, asset)}
+                  className="mr-2 w-20-px"
+                  checked={asset.isChecked}
+                  type="checkbox"
+                />
+                {asset.name} ({asset.symbol})
+              </td>
+              <td className="py-4 pr-4">
+                ${Number(asset.priceUsd).toFixed(2)}
+              </td>
+              <td className="py-4 pr-4">
+                ${transformNumberToReadableFormat(asset.supply)}
+              </td>
+              <td className="py-4 pr-4">
+                ${transformNumberToReadableFormat(asset.marketCapUsd)}
+              </td>
+              <td className="py-4 pr-4">
+                ${transformNumberToReadableFormat(asset.volumeUsd24Hr)}
+              </td>
+              <td className="py-4 pr-4">{asset.rank}</td>
+            </tr>
+          );
+        })}
+      </Table>
+    </div>
   );
 };
 

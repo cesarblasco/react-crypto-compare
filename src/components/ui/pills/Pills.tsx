@@ -50,13 +50,13 @@ const Pills: React.FC<IPills> = ({
   };
 
   return (
-    <>
+    <div className="text-center md:text-left">
       {state.pills.map((pill: any) => {
         return (
           pill.visible && (
             <button
               key={pill.id}
-              className={`cursor-pointer rounded-full py-2 px-4 inline-block mr-4 focus:outline-none ${
+              className={`cursor-pointer rounded-full mb-2 py-2 px-4 inline-block mr-4 focus:outline-none ${
                 pill.active
                   ? "bg-blue-600 text-white font-semibold"
                   : "border-solid border-2 border-black-500"
@@ -68,7 +68,7 @@ const Pills: React.FC<IPills> = ({
           )
         );
       })}
-    </>
+    </div>
   );
 };
 

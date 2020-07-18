@@ -45,14 +45,14 @@ const Tabs: React.FC<ITabs> = ({
   }, [selectedTab]);
 
   return (
-    <div role="tablist">
+    <div role="tablist" className="text-center md:text-left">
       {state.tabs.map((tab: any) => {
         return (
           tab.visible && (
             <button
               key={tab.id}
               role="tab"
-              className="inline-block mr-6 focus:outline-none"
+              className="inline-block mr-6 focus:outline-none mb-2"
               onClick={() => onChangeTab(tab)}
             >
               <span
