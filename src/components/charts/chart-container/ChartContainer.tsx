@@ -22,7 +22,7 @@ const ChartContainer: React.FC<IChartContainer> = ({
     currentChart: StackedBar,
     currentComparisonTitle: "Price",
     currentComparisonKey: "priceUsd",
-    percentageOfTotalKey: "percentageOfTotal",
+    percentageOfCurrentComparisonTotalKey: "percentageOfTotal",
     totalOfSelectedKey: "totalPrice",
   });
 
@@ -36,14 +36,14 @@ const ChartContainer: React.FC<IChartContainer> = ({
   const handleChangeComparisonPill = ({
     title,
     keyFromAsset,
-    percentageOfTotalKey,
+    percentageOfCurrentComparisonTotalKey,
     totalOfSelectedKey,
   }: any) => {
     setChartSettings({
       ...chartSettings,
       currentComparisonTitle: title,
       currentComparisonKey: keyFromAsset,
-      percentageOfTotalKey,
+      percentageOfCurrentComparisonTotalKey,
       totalOfSelectedKey,
     });
   };
@@ -82,7 +82,7 @@ const ChartContainer: React.FC<IChartContainer> = ({
         chartSettings={chartSettings}
       />
 
-      <div className="w-full flex flex-wrap justify-center">
+      <div className="w-full flex flex-wrap justify-center mt-2">
         {selectedAssets.assets.map((asset: ICryptoAsset) => {
           return (
             <InformationPanel
@@ -93,7 +93,7 @@ const ChartContainer: React.FC<IChartContainer> = ({
               backgroundColor={asset.color}
               backgroundAlpha={0.3}
               percentage={`(${Number(
-                asset[chartSettings.percentageOfTotalKey]
+                asset[chartSettings.percentageOfCurrentComparisonTotalKey]
               ).toFixed(2)})%`}
               onClosePanel={onClosePanel}
             />

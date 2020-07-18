@@ -42,7 +42,7 @@ const ChartSettings: React.FC<IChartSettings> = ({
       id: Price,
       title: "Price",
       keyFromAsset: "priceUsd",
-      percentageOfTotalKey: "percentageOfTotal",
+      percentageOfCurrentComparisonTotalKey: "percentageOfTotal",
       totalOfSelectedKey: "totalPrice",
       visible: true,
       active: false,
@@ -51,7 +51,7 @@ const ChartSettings: React.FC<IChartSettings> = ({
       id: MarketShare,
       title: "Market Cap",
       keyFromAsset: "marketCapUsd",
-      percentageOfTotalKey: "marketSharePercentageOfTotal",
+      percentageOfCurrentComparisonTotalKey: "marketSharePercentageOfTotal",
       totalOfSelectedKey: "totalMarketShare",
       visible: true,
       active: false,
@@ -60,7 +60,7 @@ const ChartSettings: React.FC<IChartSettings> = ({
       id: Supply,
       title: "Supply",
       keyFromAsset: "supply",
-      percentageOfTotalKey: "supplyPercentageOfTotal",
+      percentageOfCurrentComparisonTotalKey: "supplyPercentageOfTotal",
       totalOfSelectedKey: "totalSupply",
       visible: true,
       active: false,
@@ -69,7 +69,7 @@ const ChartSettings: React.FC<IChartSettings> = ({
       id: Volume24hr,
       title: "Volume (24 hr)",
       keyFromAsset: "volumeUsd24Hr",
-      percentageOfTotalKey: "volume24hrPercentageOfTotal",
+      percentageOfCurrentComparisonTotalKey: "volume24hrPercentageOfTotal",
       totalOfSelectedKey: "totalVolume24hr",
       visible: true,
       active: false,
@@ -100,15 +100,13 @@ const ChartSettings: React.FC<IChartSettings> = ({
         fontSize={19}
       />
 
-      {currentChartTab.id !== Bar && (
-        <div className="mt-4">
-          <Pills
-            pills={chartComparisonPills}
-            selectedPill={currentComparisonPill}
-            onClick={handleComparisonPillChange}
-          />
-        </div>
-      )}
+      <div className="mt-4">
+        <Pills
+          pills={chartComparisonPills}
+          selectedPill={currentComparisonPill}
+          onClick={handleComparisonPillChange}
+        />
+      </div>
     </>
   );
 };

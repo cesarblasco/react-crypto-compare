@@ -41,46 +41,45 @@ const App: React.FC<any> = () => {
     selectedAssetsInitialState
   );
 
-  const updateCryptocurriencies = (
+  const updateCryptocurriencies = async (
     searchTerm: string,
     newFetchLimit?: number
   ) => {
     setIsLoading(true);
 
-    fetchCryptoCurrencies(searchTerm, currentFetchLimit, newFetchLimit).then(
-      (jsonResponse: any) => {
-        const responseData = jsonResponse.data;
-
-        responseData.forEach((cryptoAsset: ICryptoAsset) => {
-          cryptoAsset.isChecked = false;
-        });
-
-        if (selectedAssets && selectedAssets.assets.length) {
-          selectedAssets.assets.forEach((asset: ICryptoAsset) => {
-            const selectedAssetIndexInCryptoAssets = responseData.findIndex(
-              (assetToFind: any) => assetToFind.id === asset.id
-            );
-            if (selectedAssetIndexInCryptoAssets !== -1) {
-              responseData[selectedAssetIndexInCryptoAssets].isChecked = true;
-            }
-          });
-        }
-
-        setAssets({
-          responseAssets: responseData,
-          currentPageAssets: responseData.slice(0, 10),
-        });
-        setIsLoading(false);
-
-        if (newFetchLimit) {
-          setCurrentFetchLimit(newFetchLimit);
-        }
-
-        if (searchTerm) {
-          setCurrentSearch(searchTerm);
-        }
-      }
+    const responseData = await fetchCryptoCurrencies(
+      searchTerm,
+      currentFetchLimit,
+      newFetchLimit
     );
+    responseData.forEach((cryptoAsset: ICryptoAsset) => {
+      cryptoAsset.isChecked = false;
+    });
+
+    if (selectedAssets && selectedAssets.assets.length) {
+      selectedAssets.assets.forEach((asset: ICryptoAsset) => {
+        const selectedAssetIndexInCryptoAssets = responseData.findIndex(
+          (assetToFind: any) => assetToFind.id === asset.id
+        );
+        if (selectedAssetIndexInCryptoAssets !== -1) {
+          responseData[selectedAssetIndexInCryptoAssets].isChecked = true;
+        }
+      });
+    }
+
+    setAssets({
+      responseAssets: responseData,
+      currentPageAssets: responseData.slice(0, 10),
+    });
+    setIsLoading(false);
+
+    if (newFetchLimit) {
+      setCurrentFetchLimit(newFetchLimit);
+    }
+
+    if (searchTerm) {
+      setCurrentSearch(searchTerm);
+    }
   };
 
   useEffect(() => {
@@ -249,7 +248,7 @@ const App: React.FC<any> = () => {
 
   return (
     <>
-      <div className="flex flex-wrap justify-center w-9/12 mx-auto">
+      <div className="flex flex-wrap justify-center w-11/12 xl:w-9/12 mx-auto">
         <h1 className="text-center mt-10 text-5xl w-full">Crypto compare</h1>
 
         {selectedAssets && selectedAssets.assets.length ? (
@@ -272,14 +271,16 @@ const App: React.FC<any> = () => {
         ) : null}
 
         <div className="w-4/5">
-          <div className="flex mt-8 w-full justify-between">
-            <span className="font-semibold">
+          <div className="md:flex mt-8 w-full justify-between">
+            <div className="font-semibold sm:mb-2 md:mb-0">
               {assets.responseAssets.length} cryptocurrencies
               {selectedAssets.assets && selectedAssets.assets.length ? (
                 <span> ({selectedAssets.assets.length} checked)</span>
               ) : null}
-            </span>
-            <SearchBar onSearch={handleSearch} placeholder="Search..." />
+            </div>
+            <div className="flex-end sm:mb-2 md:mb-0">
+              <SearchBar onSearch={handleSearch} placeholder="Search..." />
+            </div>
           </div>
 
           <label htmlFor="fetchLimit">API Fetch limit: </label>

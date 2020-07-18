@@ -34,6 +34,11 @@ const BarChart: React.FC<IBarChart> = ({ selectedAssets, chartSettings }) => {
     setCurrentLayout(newLayout);
   };
 
+  const axis = {
+    enable: true,
+    tickSize: 2,
+  };
+
   return (
     <figure style={{ height: "350px", width: "80%", marginBottom: "120px" }}>
       <ResponsiveBar
@@ -49,6 +54,9 @@ const BarChart: React.FC<IBarChart> = ({ selectedAssets, chartSettings }) => {
         labelSkipHeight={12}
         labelTextColor={{ from: "color", modifiers: [["darker", 1.6]] }}
         enableLabel={false}
+        enableGridY={false}
+        axisLeft={!currentLayout || currentLayout === "vertical" ? null : axis}
+        axisBottom={currentLayout === "horizontal" ? null : axis}
         tooltip={({ id, value }) => (
           <>
             {id}: <strong>${nf.format(value)} </strong>

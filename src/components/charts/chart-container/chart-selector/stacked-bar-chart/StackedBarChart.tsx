@@ -15,6 +15,8 @@ const StackedBarChart: React.FC<IStackedBarChart> = ({
   selectedAssets,
   chartSettings,
 }) => {
+  const nf = Intl.NumberFormat();
+
   return (
     <>
       <figure className="w-full h-16 mt-4 mb-8">
@@ -26,7 +28,9 @@ const StackedBarChart: React.FC<IStackedBarChart> = ({
               data-for={`assetTooltip-${asset.id}`}
               style={{
                 backgroundColor: asset.color,
-                width: `${asset[chartSettings.percentageOfTotalKey]}%`,
+                width: `${
+                  asset[chartSettings.percentageOfCurrentComparisonTotalKey]
+                }%`,
               }}
               className="inline-block h-16 hover:border-solid hover:border-8 hover:border-yellow-500"
             >
@@ -38,12 +42,10 @@ const StackedBarChart: React.FC<IStackedBarChart> = ({
               >
                 {asset.name} ({asset.symbol}){" "}
                 <div>
-                  $
-                  {`${transformNumberToReadableFormat(
-                    asset[chartSettings.currentComparisonKey]
-                  )}`}{" "}
-                  (
-                  {Number(asset[chartSettings.percentageOfTotalKey]).toFixed(2)}
+                  ${`${nf.format(asset[chartSettings.currentComparisonKey])}`} (
+                  {Number(
+                    asset[chartSettings.percentageOfCurrentComparisonTotalKey]
+                  ).toFixed(2)}
                   %)
                 </div>
               </ReactTooltip>

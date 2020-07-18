@@ -19,7 +19,7 @@ export const fetchCryptoCurrencies = (
   return fetch(apiURL, requestOptions)
     .then((response: any) => response.json())
     .then((jsonResponse: any) => {
-      return jsonResponse;
+      return jsonResponse.data;
     })
     .catch((error: any) => console.error("error", error));
 };

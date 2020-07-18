@@ -7,12 +7,15 @@ interface IChartCaption {
 }
 
 const ChartCaption: React.FC<IChartCaption> = ({ chartSettings }) => {
-  const { StackedBar } = ChartTypes;
+  const { StackedBar, Bar } = ChartTypes;
 
   const renderCurrentChartExtraCaptionText = () => {
     switch (chartSettings.currentChart) {
       case StackedBar:
-        return <span>Dev note: This chart was made my me :)</span>;
+        return <span>Dev note: This chart was made by me :)</span>;
+
+      case Bar:
+        return <span>Displays all values.</span>;
 
       default:
         return null;
@@ -22,8 +25,10 @@ const ChartCaption: React.FC<IChartCaption> = ({ chartSettings }) => {
   return (
     <figcaption>
       <h3 className="text-center">
-        {chartSettings.currentComparisonTitle} {chartSettings.currentChart}{" "}
-        chart. <>{renderCurrentChartExtraCaptionText()}</>
+        {chartSettings.currentChart !== Bar &&
+          chartSettings.currentComparisonTitle}{" "}
+        {chartSettings.currentChart} chart.{" "}
+        <>{renderCurrentChartExtraCaptionText()}</>
       </h3>
     </figcaption>
   );

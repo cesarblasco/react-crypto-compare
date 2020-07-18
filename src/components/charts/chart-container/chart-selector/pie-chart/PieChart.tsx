@@ -11,16 +11,14 @@ interface IPieChart {
 }
 
 const PieChart: React.FC<IPieChart> = ({ selectedAssets, chartSettings }) => {
+  const nf = Intl.NumberFormat();
+
   const pieChartData = selectedAssets.assets.map((asset: ICryptoAsset) => {
     let assetValue = asset[chartSettings.currentComparisonKey];
-
-    const nf = Intl.NumberFormat();
-
     return {
       id: asset.id,
       label: `${asset.name} (${asset.symbol})`,
-      value: parseFloat(assetValue),
-      formattedValue: parseFloat(nf.format(assetValue)),
+      value: assetValue,
       color: asset.color,
     };
   });
@@ -51,9 +49,9 @@ const PieChart: React.FC<IPieChart> = ({ selectedAssets, chartSettings }) => {
         slicesLabelsSkipAngle={10}
         slicesLabelsTextColor="#000"
         enableSlicesLabels={false}
-        tooltip={({ label, formattedValue }) => (
+        tooltip={({ label, value }) => (
           <>
-            {label} <strong>${formattedValue}</strong>
+            {label}: <strong>${nf.format(value)} </strong>
           </>
         )}
         animate={true}
