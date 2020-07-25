@@ -313,9 +313,15 @@ const App: React.FC<any> = () => {
           ) : null}
 
           {isLoading ? (
-            <Spinner />
+            <div className="mt-32">
+              <Spinner />
+            </div>
           ) : (
-            !assets.responseAssets.length && <NoDataAvailable />
+            !assets.responseAssets.length && (
+              <div className="mt-10 mb-10">
+                <NoDataAvailable />
+              </div>
+            )
           )}
         </div>
       </div>
