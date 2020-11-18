@@ -6,11 +6,17 @@ interface IToasty {
   // make sure the value is different when you actually want to remount the component, or keep the same value for the key to not remount
   // https://reactjs.org/blog/2018/06/07/you-probably-dont-need-derived-state.html#recommendation-fully-uncontrolled-component-with-a-key
   key: any;
+  backgroundColorClass?: string;
   message?: any;
   duration?: number;
 }
 
-const Toasty: React.FC<IToasty> = ({ title, message, duration = null }) => {
+const Toasty: React.FC<IToasty> = ({
+  title,
+  message,
+  duration = null,
+  backgroundColorClass,
+}) => {
   const [isDisplayed, setIsDisplayed] = useState(true);
   let closeToastyTimeout: any;
 
@@ -50,7 +56,9 @@ const Toasty: React.FC<IToasty> = ({ title, message, duration = null }) => {
           open
           onMouseOver={pauseCloseToastyTimeout}
           onMouseLeave={resetCloseToastyTimeout}
-          className={`fixed right-0 p-4 bg-green-500 text-white rounded-lg w-64 mr-16 mt-10 shadow-lg`}
+          className={`fixed right-0 p-4 ${
+            backgroundColorClass ? backgroundColorClass : "bg-green-500"
+          } text-white rounded-lg w-64 mr-16 mt-10 shadow-lg`}
         >
           <span
             aria-label="Close toasty message"

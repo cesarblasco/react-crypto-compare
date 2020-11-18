@@ -29,6 +29,7 @@ const App: React.FC<any> = () => {
 
   const selectedAssetsInitialState: ISelectedAssets = {
     assets: [],
+    lastModification: null,
     information: {
       totalPrice: 0,
       totalMarketShare: "0",
@@ -41,7 +42,7 @@ const App: React.FC<any> = () => {
     selectedAssetsInitialState
   );
 
-  const updateCryptocurriencies = async (
+  const updateCryptocurrencies = async (
     searchTerm: string,
     newFetchLimit?: number
   ) => {
@@ -77,29 +78,36 @@ const App: React.FC<any> = () => {
       setCurrentFetchLimit(newFetchLimit);
     }
 
-    if (searchTerm) {
-      setCurrentSearch(searchTerm);
-    }
+    setCurrentSearch(searchTerm);
   };
 
   useEffect(() => {
-    updateCryptocurriencies(currentSearch);
+    updateCryptocurrencies("");
   }, []);
 
   const addOrRemoveAssetFromSelectedAssets = (
     isChecked: boolean,
     asset: ICryptoAsset
   ) => {
+    let action = "";
     asset.isChecked = isChecked;
     let modifiedSelectedAssets = [...selectedAssets.assets];
     if (isChecked) {
       modifiedSelectedAssets.push(asset);
+      action = "added";
     } else {
       modifiedSelectedAssets = modifiedSelectedAssets.filter(
         (assetToFilter) => assetToFilter.id !== asset.id
       );
+      action = "removed";
     }
-    return modifiedSelectedAssets;
+    return {
+      modifiedSelectedAssets,
+      lastModification: {
+        action,
+        asset,
+      },
+    };
   };
 
   const createNewTotalByAttribute = (
@@ -113,10 +121,11 @@ const App: React.FC<any> = () => {
   };
 
   const handleAssetCheck = (event: any, asset: ICryptoAsset) => {
-    let newSelectedAssets = addOrRemoveAssetFromSelectedAssets(
+    const newAssetsCollection = addOrRemoveAssetFromSelectedAssets(
       event.target.checked,
       asset
     );
+    let newSelectedAssets = newAssetsCollection.modifiedSelectedAssets;
 
     if (newSelectedAssets && newSelectedAssets.length) {
       const newTotalPrice = createNewTotalByAttribute(
@@ -155,6 +164,7 @@ const App: React.FC<any> = () => {
       const newSelectedAssetsState = {
         ...selectedAssets,
         assets: newSelectedAssets,
+        lastModification: newAssetsCollection.lastModification,
         information: {
           ...selectedAssets.information,
           totalPrice: newTotalPrice,
@@ -178,11 +188,11 @@ const App: React.FC<any> = () => {
   };
 
   const handleSearch = (searchTerm: string) => {
-    updateCryptocurriencies(searchTerm);
+    updateCryptocurrencies(searchTerm);
   };
 
   const handleChangeFetchLimit = (event: any) => {
-    updateCryptocurriencies(currentSearch, event.target.value);
+    updateCryptocurrencies("", event.target.value);
   };
 
   const handleClosePanel = (panelTitle: string) => {
@@ -250,15 +260,17 @@ const App: React.FC<any> = () => {
     <>
       <div className="flex flex-wrap justify-center w-11/12 xl:w-9/12 mx-auto">
         <h1 className="text-center mt-10 text-5xl w-full">Crypto compare</h1>
-
         {selectedAssets && selectedAssets.assets.length ? (
           <>
             <Toasty
-              title={`${
-                selectedAssets.assets[selectedAssets.assets.length - 1].name
-              } added`}
+              title={`${selectedAssets.lastModification.asset.name} ${
+                selectedAssets.lastModification.action === "added"
+                  ? "added"
+                  : "removed"
+              }`}
               message="Add more assets or <a class='text-yellow-400 font-bold underline' href='#'>go to top</a> to begin comparing"
               duration={4000}
+              backgroundColorClass={selectedAssets.lastModification.action === "added" ? "bg-green-500" : "bg-red-500"}
               key={selectedAssets.assets.length % 2 === 0 ? 1 : 2}
             />
 
