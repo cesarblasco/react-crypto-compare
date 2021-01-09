@@ -1,16 +1,13 @@
 export const fetchCryptoCurrencies = (
   searchTerm: string,
-  currentFetchLimit: number,
-  newFetchLimit?: number
+  currentFetchLimit: number
 ) => {
   const requestOptions: any = {
     method: "GET",
     redirect: "follow",
   };
 
-  let apiURL = `https://api.coincap.io/v2/assets?limit=`;
-
-  apiURL += newFetchLimit ? newFetchLimit : currentFetchLimit;
+  let apiURL = `https://api.coincap.io/v2/assets?limit=${currentFetchLimit}`;
 
   if (searchTerm) {
     apiURL += `&search=${searchTerm}`;

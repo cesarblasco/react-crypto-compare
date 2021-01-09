@@ -1,43 +1,44 @@
 import React, { useState } from "react";
 import ReactTooltip from "react-tooltip";
-import { ITableHeader } from "../../../models/interfaces/TableHeader";
+import { ITableColumn } from "../../../models/interfaces/TableColumn";
 import { SortingTypes } from "../../../models/enums/SortingTypes.enum";
 import notSortedIcon from "../../../images/icons/not-sorted.svg";
 import sortAscentIcon from "../../../images/icons/sort-ascent.svg";
 import sortDescentIcon from "../../../images/icons/sort-descent.svg";
 
 interface ITable {
-  headers: ITableHeader[];
+  columns: ITableColumn[];
+  dataSource: any[];
   children?: any;
-  onSort?: (sortedHeader: ITableHeader) => void;
+  onSort?: (sortedColumnHeader: ITableColumn) => void;
 }
 
-const Table: React.FC<ITable> = ({ children, headers, onSort }) => {
+const Table: React.FC<ITable> = ({ columns, dataSource, onSort }) => {
   const { Ascending, Descending } = SortingTypes;
 
-  const [currentSortedHeader, setCurrentSortedHeader] = useState();
+  const [currentSortedHeader, setCurrentSortedHeader] = useState(null);
 
   if (currentSortedHeader) {
-    const headerToUpdateIndex = headers.findIndex(
+    const headerToUpdateIndex = columns.findIndex(
       ({ title }) => title === currentSortedHeader.title
     );
 
     if (headerToUpdateIndex > -1) {
-      headers[headerToUpdateIndex] = currentSortedHeader;
+      columns[headerToUpdateIndex] = currentSortedHeader;
     }
   }
 
-  const onChangeSort = (clickedHeader: ITableHeader) => {
+  const onChangeSort = (clickedColumnHeader: ITableColumn) => {
     let newSortedHeader;
-    if (clickedHeader.sortBy) {
+    if (clickedColumnHeader.isSortable) {
       if (!currentSortedHeader) {
-        newSortedHeader = { ...clickedHeader, currentSort: Ascending };
+        newSortedHeader = { ...clickedColumnHeader, currentSort: Ascending };
         setCurrentSortedHeader(newSortedHeader);
       } else {
         newSortedHeader = {
-          ...clickedHeader,
+          ...clickedColumnHeader,
           currentSort:
-            clickedHeader.currentSort === Descending ? Ascending : Descending,
+            clickedColumnHeader.currentSort === Descending ? Ascending : Descending,
         };
         setCurrentSortedHeader(newSortedHeader);
       }
@@ -48,10 +49,10 @@ const Table: React.FC<ITable> = ({ children, headers, onSort }) => {
     }
   };
 
-  const renderSortArrow = (header: ITableHeader) => {
+  const renderSortArrow = (column: ITableColumn) => {
     return (
       <span className="">
-        {currentSortedHeader && header.title === currentSortedHeader.title ? (
+        {currentSortedHeader && column.title === currentSortedHeader.title ? (
           currentSortedHeader.currentSort === Descending ? (
             <img
               className="w-3 h-3 pt-1"
@@ -81,39 +82,61 @@ const Table: React.FC<ITable> = ({ children, headers, onSort }) => {
       <table className="table-fixed w-full mt-4">
         <thead>
           <tr>
-            {headers.map((header: ITableHeader) => {
-              return header.title && header.isVisible ? (
+            {columns.map((column: ITableColumn) => {
+              return column.title && column.isVisible ? (
                 <th
-                  style={{ width: `${header.width}%` }}
+                  style={{ width: `${column.width}%` }}
                   className={`font-extrabold text-gray-600 text-left border-solid border-gray-400 border-b-2 ${
-                    header.sortBy ? "cursor-pointer" : ""
+                    column.isSortable ? "cursor-pointer" : ""
                   }`}
                   data-tip
-                  data-for={header.title}
-                  key={header.title}
-                  onClick={() => onChangeSort(header)}
+                  data-for={column.title}
+                  key={column.title}
+                  onClick={() => onChangeSort(column)}
                 >
-                  {header.title}
-                  {header.tooltip && (
-                    <ReactTooltip id={header.title} place="top" effect="solid">
-                      {header.tooltip}
+                  {column.title}
+                  {column.tooltip && (
+                    <ReactTooltip id={column.title} place="top" effect="solid">
+                      {column.tooltip}
                     </ReactTooltip>
                   )}
-                  {header.sortBy && (
+                  {column.isSortable && (
                     <span className="inline-block float-right pr-2 pt-1">
-                      {renderSortArrow(header)}
+                      {renderSortArrow(column)}
                     </span>
                   )}
                 </th>
               ) : (
-                header.isVisible && (
-                  <th style={{ width: `${header.width}%` }}></th>
+                column.isVisible && (
+                  <th style={{ width: `${column.width}%` }}></th>
                 )
               );
             })}
           </tr>
         </thead>
-        <tbody>{children}</tbody>
+        <tbody>
+          {dataSource.map((data: any) => {
+              return(
+                <tr key={data.id} className="border-solid border-gray-300 border-b-2">
+                  {columns.map((column: ITableColumn) => {
+                     return (
+                      <td className="py-4 pr-4">
+                        {data.hasOwnProperty(column.key) ?
+                          <>
+                            {column.render(data[column.key])}
+                          </>
+                          :
+                          <>
+                            {column.render(data)}
+                          </>
+                        }
+                      </td>
+                     )
+                  })} 
+                </tr>
+              )
+          })}
+        </tbody>
       </table>
     </>
   );

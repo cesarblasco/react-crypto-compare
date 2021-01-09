@@ -1,8 +1,10 @@
-import React from "react";
+import React, { useContext } from "react";
 import {
   hexToRGBA,
   transformNumberToReadableFormat,
 } from "../../../utilities/utilities";
+import { AppContext } from "../../../contexts/AppContext";
+import { onCloseAssetPanelActionCreator } from "../../../contexts/action-creators/ActionCreators";
 
 interface IInformationPanel {
   panelTitle: string;
@@ -10,7 +12,6 @@ interface IInformationPanel {
   backgroundColor: string;
   backgroundAlpha: number;
   percentage: string;
-  onClosePanel: (panelTitle: string) => void;
   panelSubtitle?: string;
 }
 
@@ -21,8 +22,9 @@ const InformationPanel: React.FC<IInformationPanel> = ({
   backgroundColor,
   percentage,
   backgroundAlpha,
-  onClosePanel,
 }) => {
+  const { dispatch } = useContext(AppContext);
+
   if (percentage.startsWith("(0.00")) {
     percentage = "(0.00...)%";
   }
@@ -46,7 +48,7 @@ const InformationPanel: React.FC<IInformationPanel> = ({
           <span
             aria-label={`Close ${panelTitle} panel`}
             className="float-right mr-4 cursor-pointer text-xl transform -translate-y-2"
-            onClick={() => onClosePanel(panelTitle)}
+            onClick={() => dispatch(onCloseAssetPanelActionCreator({panelTitle}))}
           >
             &times;
           </span>

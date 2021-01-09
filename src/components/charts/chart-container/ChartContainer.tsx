@@ -1,22 +1,22 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import ChartSettings from "./chart-settings/ChartSettings";
 import ChartSelector from "./chart-selector/ChartSelector";
 import InformationPanel from "../../ui/information-panel/InformationPanel";
 import { ICryptoAsset } from "../../../models/interfaces/CryptoAsset";
 import { ISelectedAssets } from "../../../models/interfaces/SelectedAssets";
 import { ChartTypes } from "../../../models/enums/ChartTypes.enum";
+import { AppContext } from "../../../contexts/AppContext";
+import { onResetSelectionActionCreator } from "../../../contexts/action-creators/ActionCreators";
 
 interface IChartContainer {
   selectedAssets: ISelectedAssets;
-  onResetSelection: () => void;
-  onClosePanel: (panelTitle: string) => void;
 }
 
 const ChartContainer: React.FC<IChartContainer> = ({
   selectedAssets,
-  onResetSelection,
-  onClosePanel,
 }) => {
+  const { dispatch } = useContext(AppContext)
+
   const { StackedBar } = ChartTypes;
   const [chartSettings, setChartSettings] = useState({
     currentChart: StackedBar,
@@ -70,7 +70,7 @@ const ChartContainer: React.FC<IChartContainer> = ({
           </span>
         )}
         <span
-          onClick={onResetSelection}
+          onClick={() => dispatch(onResetSelectionActionCreator())}
           className="ml-2 underline font-blue-500 cursor-pointer"
         >
           Reset selection
@@ -95,7 +95,6 @@ const ChartContainer: React.FC<IChartContainer> = ({
               percentage={`(${Number(
                 asset[chartSettings.percentageOfCurrentComparisonTotalKey]
               ).toFixed(2)})%`}
-              onClosePanel={onClosePanel}
             />
           );
         })}

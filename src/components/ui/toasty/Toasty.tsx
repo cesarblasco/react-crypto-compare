@@ -5,7 +5,7 @@ interface IToasty {
   // Use they key value to remount the component so that when duration prop is set, the timeouts are handled correctly after clearing it for the first time
   // make sure the value is different when you actually want to remount the component, or keep the same value for the key to not remount
   // https://reactjs.org/blog/2018/06/07/you-probably-dont-need-derived-state.html#recommendation-fully-uncontrolled-component-with-a-key
-  key: any;
+  key?: any;
   backgroundColorClass?: string;
   message?: any;
   duration?: number;

@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 
 interface IPagination {
   dataSource: any[];
-  onPageChange: ({ currentPage, perPage }: any) => void;
+  onPageChange: ({ currentPage, perPage, newPageData }: {currentPage: number, perPage: number, newPageData: any[]}) => void;
   perPageOptions?: any[];
 }
 
@@ -70,8 +70,8 @@ const Pagination: React.FC<IPagination> = ({
       const newPageIndex = (currentPage - 1) * state.perPage;
       const newPageLimit = currentPage * state.perPage;
 
-      const newPageAssets = dataSource.slice(newPageIndex, newPageLimit);
-      onPageChange({ currentPage, perPage: state.perPage, newPageAssets });
+      const newPageData = dataSource.slice(newPageIndex, newPageLimit);
+      onPageChange({ currentPage, perPage: state.perPage, newPageData });
     }
   };
 
@@ -85,9 +85,9 @@ const Pagination: React.FC<IPagination> = ({
     });
 
     const newPageLimit = 1 * perPageValue;
-    const newPageAssets = dataSource.slice(0, newPageLimit);
+    const newPageData = dataSource.slice(0, newPageLimit);
 
-    onPageChange({ currentPage: 1, perPage: perPageValue, newPageAssets });
+    onPageChange({ currentPage: 1, perPage: perPageValue, newPageData });
   };
 
   return totalData > 0 ? (
