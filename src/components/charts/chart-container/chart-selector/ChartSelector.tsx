@@ -1,46 +1,29 @@
-import React from "react";
+import React, { useContext } from "react";
 import StackedBarChart from "./stacked-bar-chart/StackedBarChart";
 import PieChart from "./pie-chart/PieChart";
 import BarChart from "./bar-chart/BarChart";
 import { ChartTypes } from "../../../../models/enums/ChartTypes.enum";
-import { ISelectedAssets } from "../../../../models/interfaces/SelectedAssets";
-import { IChartSettings } from "../../../../models/interfaces/ChartSettings";
+import { ChartContext } from "../../../../contexts/chart-context/ChartContext";
 
-interface IChartSelector {
-  selectedAssets: ISelectedAssets;
-  chartSettings: IChartSettings;
-}
-
-const ChartSelector: React.FC<IChartSelector> = ({
-  selectedAssets,
-  chartSettings,
-}) => {
+const ChartSelector: React.FC = () => {
   const { StackedBar, Pie, Bar } = ChartTypes;
+  const { state } = useContext(ChartContext);
 
   const renderCurrentChart = () => {
-    switch (chartSettings.currentChart) {
+    switch (state.currentChart) {
       case StackedBar:
         return (
-          <StackedBarChart
-            selectedAssets={selectedAssets}
-            chartSettings={chartSettings}
-          />
+          <StackedBarChart />
         );
 
       case Pie:
         return (
-          <PieChart
-            selectedAssets={selectedAssets}
-            chartSettings={chartSettings}
-          />
+          <PieChart />
         );
 
       case Bar:
         return (
-          <BarChart
-            selectedAssets={selectedAssets}
-            chartSettings={chartSettings}
-          />
+          <BarChart />
         );
     }
   };

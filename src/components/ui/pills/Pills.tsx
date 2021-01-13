@@ -1,10 +1,13 @@
 import React, { useEffect, useState } from "react";
 
-interface IPill {
+export interface IPill {
   id: string;
   title: string;
   visible: boolean;
   active: boolean;
+  keyFromAsset?: string;
+  percentageOfCurrentComparisonTotalKey?: string;
+  totalOfSelectedKey?: string;
 }
 
 interface IPills {

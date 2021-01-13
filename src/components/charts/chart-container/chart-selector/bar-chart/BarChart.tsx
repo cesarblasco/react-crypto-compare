@@ -1,19 +1,16 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import ChartCaption from "../chart-caption/ChartCaption";
 import { ICryptoAsset } from "../../../../../models/interfaces/CryptoAsset";
 import { ResponsiveBar } from "@nivo/bar";
+import { AppContext } from "../../../../../contexts/app-context/AppContext";
 
-interface IBarChart {
-  selectedAssets: any;
-  chartSettings: any;
-}
-
-const BarChart: React.FC<IBarChart> = ({ selectedAssets, chartSettings }) => {
-  const [currentLayout, setCurrentLayout] = useState();
+const BarChart: React.FC = () => {
+  const { state } = useContext(AppContext); 
+  const [currentLayout, setCurrentLayout] = useState("");
 
   const nf = Intl.NumberFormat();
 
-  const barChartData = selectedAssets.assets.map((asset: ICryptoAsset) => {
+  const barChartData = state.selectedAssets.assets.map((asset: ICryptoAsset) => {
     return {
       id: asset.id,
       asset: `${asset.name} (${asset.symbol})`,
@@ -101,7 +98,7 @@ const BarChart: React.FC<IBarChart> = ({ selectedAssets, chartSettings }) => {
           </button>
         </div>
 
-        <ChartCaption chartSettings={chartSettings} />
+        <ChartCaption />
       </div>
     </figure>
   );

@@ -3,8 +3,8 @@ import {
   hexToRGBA,
   transformNumberToReadableFormat,
 } from "../../../utilities/utilities";
-import { AppContext } from "../../../contexts/AppContext";
-import { onCloseAssetPanelActionCreator } from "../../../contexts/action-creators/ActionCreators";
+import { AppContext } from "../../../contexts/app-context/AppContext";
+import { onCloseAssetPanelActionCreator } from "../../../contexts/app-context/action-creators/ActionCreators";
 
 interface IInformationPanel {
   panelTitle: string;

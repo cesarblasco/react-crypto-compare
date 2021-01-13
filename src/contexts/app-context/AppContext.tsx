@@ -1,10 +1,11 @@
 import React, { createContext, useReducer } from "react";
-import { ISelectedAssets } from "../models/interfaces/SelectedAssets";
-import { ICryptoAsset } from "../models/interfaces/CryptoAsset";
-import { ITableColumn } from "../models/interfaces/TableColumn";
-import { SortingTypes } from "../models/enums/SortingTypes.enum";
-import { generateRandomHexColor, transformNumberToReadableFormat } from "../utilities/utilities";
+import { ISelectedAssets } from "../../models/interfaces/SelectedAssets";
+import { ICryptoAsset } from "../../models/interfaces/CryptoAsset";
+import { ITableColumn } from "../../models/interfaces/TableColumn";
+import { SortingTypes } from "../../models/enums/SortingTypes.enum";
+import { generateRandomHexColor, transformNumberToReadableFormat } from "../../utilities/utilities";
 import { ActionTypes } from "./action-creators/ActionTypes.enum";
+import { IContextProps } from "../ContextProps";
 
 const selectedAssetsInitialState: ISelectedAssets = {
     assets: [],
@@ -25,11 +26,6 @@ const initialState = {
     currentSearch: "",
     currentFetchLimit: 100
 };
-
-interface IContextProps {
-    state: any;
-    dispatch: ({type, payload}: {type: string, payload?: any}) => void;
- }
 
 export const AppContext = createContext({} as IContextProps);
 
@@ -258,7 +254,7 @@ const AppActionsReducer = (
 
       case ActionTypes.ON_CHANGE_FETCH_LIMIT: {
         return {
-          ...state,
+          ...initialState,
           currentFetchLimit: payload.value
         }
       }

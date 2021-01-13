@@ -6,23 +6,22 @@ import ApiFetchLimitSelect from "./api-fetch-limit-select/ApiFetchLimitSelect";
 import Spinner from "./ui/spinner/Spinner";
 import Toasty from "./ui/toasty/Toasty";
 import NoDataAvailable from "./ui/no-data-available/NoDataAvailable";
-import { AppContext } from "../contexts/AppContext";
+import { AppContext } from "../contexts/app-context/AppContext";
+import ChartContextProvider, { ChartContext } from "../contexts/chart-context/ChartContext";
 import { fetchCryptoCurrencies } from "../services/CryptocurrenciesService";
 import { requestStartActionCreator, 
          onAssetsResponseSuccessActionCreator, 
-         onSearchActionCreator} from "../contexts/action-creators/ActionCreators";
+         onSearchActionCreator} from "../contexts/app-context/action-creators/ActionCreators";
 
 const Test = () => {
   const { state, dispatch } = useContext(AppContext);
 
   const updateCryptocurrencies = async (
     ) => {
-
         dispatch(requestStartActionCreator());
-
         const responseData = await fetchCryptoCurrencies(
-        state.currentSearch,
-        state.currentFetchLimit,
+            state.currentSearch,
+            state.currentFetchLimit,
         );
         
      dispatch(onAssetsResponseSuccessActionCreator({responseAssets: responseData, currentPageAssets: responseData.slice(0, 10)}))
@@ -56,9 +55,9 @@ const Test = () => {
                         key={state.selectedAssets.assets.length % 2 === 0 ? 1 : 2}
                     />
 
-                    <ChartContainer
-                        selectedAssets={state.selectedAssets}
-                    />
+                    <ChartContextProvider>
+                        <ChartContainer />
+                    </ChartContextProvider>
                     </>
                 ) : null}
 

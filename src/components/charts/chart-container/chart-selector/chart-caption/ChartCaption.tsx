@@ -1,16 +1,13 @@
-import React from "react";
-import { IChartSettings } from "../../../../../models/interfaces/ChartSettings";
+import React, { useContext } from "react";
 import { ChartTypes } from "../../../../../models/enums/ChartTypes.enum";
+import { ChartContext } from "../../../../../contexts/chart-context/ChartContext";
 
-interface IChartCaption {
-  chartSettings: IChartSettings;
-}
-
-const ChartCaption: React.FC<IChartCaption> = ({ chartSettings }) => {
+const ChartCaption: React.FC = () => {
   const { StackedBar, Bar } = ChartTypes;
+  const { state } = useContext(ChartContext);
 
   const renderCurrentChartExtraCaptionText = () => {
-    switch (chartSettings.currentChart) {
+    switch (state.currentChart) {
       case StackedBar:
         return <span>Dev note: This chart was made by me :)</span>;
 
@@ -25,9 +22,9 @@ const ChartCaption: React.FC<IChartCaption> = ({ chartSettings }) => {
   return (
     <figcaption>
       <h3 className="text-center">
-        {chartSettings.currentChart !== Bar &&
-          chartSettings.currentComparisonTitle}{" "}
-        {chartSettings.currentChart} chart.{" "}
+        {state.currentChart !== Bar &&
+          state.currentComparisonTitle}{" "}
+        {state.currentChart} chart.{" "}
         <>{renderCurrentChartExtraCaptionText()}</>
       </h3>
     </figcaption>

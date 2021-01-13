@@ -2,12 +2,12 @@ export interface ICryptoAsset {
   [key: string]: any;
   id: string;
   changePercent24hr: string;
-  marketCapUsd: number;
+  marketCapUsd: string | number;
   maxSupply: string;
-  name: string;
-  priceUsd: string;
-  rank: string;
-  supply: number;
+  name: string; 
+  priceUsd: string | number;
+  rank: string | number;
+  supply: string | number;
   symbol: string;
   volumeUsd24Hr: number;
   vwap24Hr: string;

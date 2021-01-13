@@ -1,20 +1,17 @@
-import React from "react";
+import React, { useContext } from "react";
 import ChartCaption from "../chart-caption/ChartCaption";
 import { ResponsivePie } from "@nivo/pie";
 import { ICryptoAsset } from "../../../../../models/interfaces/CryptoAsset";
-import { ISelectedAssets } from "../../../../../models/interfaces/SelectedAssets";
-import { IChartSettings } from "../../../../../models/interfaces/ChartSettings";
+import { ChartContext } from "../../../../../contexts/chart-context/ChartContext";
+import { AppContext } from "../../../../../contexts/app-context/AppContext";
 
-interface IPieChart {
-  selectedAssets: ISelectedAssets;
-  chartSettings: IChartSettings;
-}
-
-const PieChart: React.FC<IPieChart> = ({ selectedAssets, chartSettings }) => {
+const PieChart: React.FC = () => {
   const nf = Intl.NumberFormat();
+  const { state: appContextState } = useContext(AppContext); 
+  const { state: chartContextState } = useContext(ChartContext);
 
-  const pieChartData = selectedAssets.assets.map((asset: ICryptoAsset) => {
-    let assetValue = asset[chartSettings.currentComparisonKey];
+  const pieChartData = appContextState.selectedAssets.assets.map((asset: ICryptoAsset) => {
+    let assetValue = asset[chartContextState.currentComparisonKey];
     return {
       id: asset.id,
       label: `${asset.name} (${asset.symbol})`,
@@ -23,7 +20,7 @@ const PieChart: React.FC<IPieChart> = ({ selectedAssets, chartSettings }) => {
     };
   });
 
-  const assetColors = selectedAssets.assets.map((asset: ICryptoAsset) => {
+  const assetColors = appContextState.selectedAssets.assets.map((asset: ICryptoAsset) => {
     return asset.color;
   });
 
@@ -60,7 +57,7 @@ const PieChart: React.FC<IPieChart> = ({ selectedAssets, chartSettings }) => {
       />
 
       <div style={{ marginTop: "-40px" }}>
-        <ChartCaption chartSettings={chartSettings} />
+        <ChartCaption />
       </div>
     </figure>
   );

@@ -1,6 +1,6 @@
 import React, { useContext } from "react";
-import { AppContext } from "../../contexts/AppContext";
-import { onChangeFetchLimitActionCreator } from "../../contexts/action-creators/ActionCreators";
+import { AppContext } from "../../contexts/app-context/AppContext";
+import { onChangeFetchLimitActionCreator } from "../../contexts/app-context/action-creators/ActionCreators";
 
 const ApiFetchLimitSelect = () => {
     const { state, dispatch } = useContext(AppContext);

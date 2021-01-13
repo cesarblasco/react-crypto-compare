@@ -1,6 +1,6 @@
-import { ActionTypes } from "../action-creators/ActionTypes.enum";
-import { ICryptoAsset } from "../../models/interfaces/CryptoAsset"
-import { ITableColumn } from "../../models/interfaces/TableColumn";
+import { ActionTypes } from "./ActionTypes.enum";
+import { ICryptoAsset } from "../../../models/interfaces/CryptoAsset"
+import { ITableColumn } from "../../../models/interfaces/TableColumn";
 
 interface ActionWithoutPayloadType {
     type: string

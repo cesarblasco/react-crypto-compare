@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 
-interface ITab {
+export interface ITab {
   id: string;
   title: string;
   tooltip?: string;

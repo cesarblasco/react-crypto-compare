@@ -1,22 +1,18 @@
-import React, { useState } from "react";
-import Tabs from "../../../ui/tabs/Tabs";
-import Pills from "../../../ui/pills/Pills";
+import React, { useState, useContext } from "react";
+import Tabs, { ITab } from "../../../ui/tabs/Tabs";
+import Pills, { IPill } from "../../../ui/pills/Pills";
 import { ChartTypes } from "../../../../models/enums/ChartTypes.enum";
 import { ComparisonTypes } from "../../../../models/enums/ComparisonTypes.enum";
+import { ChartContext } from "../../../../contexts/chart-context/ChartContext";
+import { onChangeChartActionCreator, onChangeComparisonPillActionCreator} from "../../../../contexts/chart-context/action-creators/ActionCreators";
 
-interface IChartSettings {
-  onChangeChartTab: (selectedChartTab: any) => void;
-  onChangeComparisonPill: (selectedComparisonPill: any) => void;
-}
-
-const ChartSettings: React.FC<IChartSettings> = ({
-  onChangeChartTab,
-  onChangeComparisonPill,
-}) => {
+const ChartSettings: React.FC = () => {
   const { StackedBar, Pie, Bar, Volume24hr } = ChartTypes;
   const { Price, MarketShare, Supply } = ComparisonTypes;
 
-  const chartTabs = [
+  const { dispatch } = useContext(ChartContext);
+
+  const chartTabs: ITab[] = [
     {
       id: StackedBar,
       title: "Horizontal Stacked Bar",
@@ -37,7 +33,7 @@ const ChartSettings: React.FC<IChartSettings> = ({
     },
   ];
 
-  const chartComparisonPills = [
+  const chartComparisonPills: IPill[] = [
     {
       id: Price,
       title: "Price",
@@ -83,12 +79,12 @@ const ChartSettings: React.FC<IChartSettings> = ({
 
   const handleChartTabChange = (selectedChartTab: any) => {
     setCurrentChartTab(selectedChartTab);
-    onChangeChartTab(selectedChartTab);
+    dispatch(onChangeChartActionCreator({chartTabId: selectedChartTab.id}))
   };
 
   const handleComparisonPillChange = (selectedComparisonPill: any) => {
     setCurrentComparisonPill(selectedComparisonPill);
-    onChangeComparisonPill(selectedComparisonPill);
+    dispatch(onChangeComparisonPillActionCreator({selectedPill: selectedComparisonPill}))
   };
 
   return (

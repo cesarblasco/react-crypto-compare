@@ -4,11 +4,11 @@ import Pagination from "../../components/ui/pagination/Pagination";
 import { transformNumberToReadableFormat } from "../../utilities/utilities";
 import { ITableColumn } from "../../models/interfaces/TableColumn";
 import { ICryptoAsset } from "../../models/interfaces/CryptoAsset";
-import { AppContext } from "../../contexts/AppContext";
+import { AppContext } from "../../contexts/app-context/AppContext";
 import { onSortActionCreator, 
         onAssetCheckActionCreator, 
         onPageChangeActionCreator,
-       } from "../../contexts/action-creators/ActionCreators";
+       } from "../../contexts/app-context/action-creators/ActionCreators";
 
 interface ICryptoAssetsTable {
   cryptoAssets: ICryptoAsset[];

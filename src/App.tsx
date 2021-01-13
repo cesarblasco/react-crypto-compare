@@ -1,5 +1,5 @@
 import React from "react";
-import AppContextProvider from "./contexts/AppContext";
+import AppContextProvider from "./contexts/app-context/AppContext";
 import CryptoCompareWrapper from "./components/CryptoCompareWrapper";
 
 const App: React.FC<any> = () => {
