@@ -13,7 +13,7 @@ import { requestStartActionCreator,
          onAssetsResponseSuccessActionCreator, 
          onSearchActionCreator} from "../contexts/app-context/action-creators/ActionCreators";
 
-const Test = () => {
+const CryptoCompareWrapper = () => {
   const { state, dispatch } = useContext(AppContext);
 
   const updateCryptocurrencies = async (
@@ -107,4 +107,4 @@ const Test = () => {
     )
 }
 
-export default Test;
+export default CryptoCompareWrapper;
